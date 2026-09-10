@@ -1,0 +1,26 @@
+{
+  "method": "sst",
+  "config": {
+    "id": "medium_aug0",
+    "size": "medium",
+    "lr": 0.002,
+    "augment": false
+  },
+  "seed": 9101,
+  "epochs": 10,
+  "stopped_epoch": 10,
+  "parameters": 432362,
+  "best_validation_m": null,
+  "training_count": 126,
+  "validation_count": 0,
+  "seconds": 1.587498000008054,
+  "history": [
+    {
+      "epoch": 10,
+      "train_m": 1.5065263719197592,
+      "lr": 0.0003999754498638505
+    }
+  ],
+  "model_sha256": "a6abf310b2d9da3c8afa14d431664b41dfbac2ca57a70bce35d8f3725ebe5c33",
+  "test_mean_m": 1.6235642604237783
+}

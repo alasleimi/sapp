@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering\small
+\caption{Localization error from exact simulator path delays, before receiver processing. The same 5,400 query positions and layouts as Table~\ref{tab:main} are used, with at most nine paths per observation. Both SAPP variants use geometric-median decoding.}
+\label{tab:raw}
+\setlength{\tabcolsep}{7pt}
+\begin{tabular}{lrr}
+\toprule
+Method & Mean (m) & 90th pct. (m)\\
+\midrule
+MPUrge-MAP & 1.355 & 2.896\\
+Chamfer weighted kNN & 1.404 & \textbf{2.759}\\
+SAPP without sources & 1.265 & 2.998\\
+SAPP & \textbf{1.203} & 3.047\\
+\bottomrule
+\end{tabular}
+\end{table}

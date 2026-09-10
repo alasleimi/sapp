@@ -1,0 +1,45 @@
+{
+  "method": "cao",
+  "config": {
+    "id": "lr0.001",
+    "lr": 0.001,
+    "augment": false
+  },
+  "seed": 9101,
+  "epochs": 50,
+  "stopped_epoch": 50,
+  "parameters": 2346242,
+  "best_validation_m": null,
+  "training_count": 160,
+  "validation_count": 0,
+  "seconds": 3.1798710000002757,
+  "history": [
+    {
+      "epoch": 10,
+      "train_m": 0.7170588946127957,
+      "lr": 0.0009511101304657719
+    },
+    {
+      "epoch": 20,
+      "train_m": 0.3470843299038422,
+      "lr": 0.0009046104802746175
+    },
+    {
+      "epoch": 30,
+      "train_m": 0.19212555881927884,
+      "lr": 0.0008603841919146961
+    },
+    {
+      "epoch": 40,
+      "train_m": 0.11043776989072147,
+      "lr": 0.0008183201210226743
+    },
+    {
+      "epoch": 50,
+      "train_m": 0.06525716521166053,
+      "lr": 0.0007783125570686419
+    }
+  ],
+  "model_sha256": "b8c272eeed1db7ce1d91a09b83c7b652b96ecc5e50f32ddc239cd87bd9d61dd1",
+  "test_mean_m": 1.9031078968823343
+}

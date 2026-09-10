@@ -1,0 +1,9 @@
+Table~\ref{tab:main} compares receiver-position errors after the channel paths have passed through the simulated receiver and peak detector. All methods use the same surveyed coordinates. SAPP mode decoding reduces mean error by 14.3\% relative to MPUrge-MAP and improves 20 of 27 layout means. The paired reduction is 0.200~m, with a 95\% interval of [0.128, 0.272]~m.
+
+The geometric median uses the same fitted map and reduces mean error by 19.9\%, with a paired reduction interval of [0.233, 0.324]~m. Its reduction relative to the CNN has interval [0.403, 0.511]~m. CNN mean error ranges from 1.555 to 1.600~m across initializations.
+
+Figure~\ref{fig:cdf} compares the position errors produced by the two SAPP decoders. The SAPP mode has the smallest pooled median, 0.494~m. The geometric median reduces upper-tail error; its RMSE is 1.552~m, compared with 1.932~m for the mode and 1.813~m for MPUrge-MAP. In the oblique room, MPUrge-MAP slightly improves on the SAPP mode (1.585 versus 1.614~m); the SAPP geometric median obtains 1.361~m. VT interpolation obtains 1.745~m. Most local tracks have too few references for trilateration, so their interpolated fingerprints use the average observed range; Supplementary Sec.~S3 gives the diagnostics. The query sets contain 8.13 peaks on average.
+
+P-NN obtains 1.674~m mean error using selected bin powers and delays. SAPP has lower mean error in each room. Supplementary Sec.~S3.5 reports paired intervals and the single-AP Transformer fits; the measured UWB experiment evaluates the Transformers with six anchor observations per query.
+
+Chamfer weighted kNN obtains 1.389~m mean error. SAPP with geometric-median decoding reduces this error by 0.267~m, with a paired 95\% interval of [0.220, 0.316]~m. This comparison uses the same delay-set distance as the measured UWB experiment.

@@ -1,0 +1,100 @@
+{
+  "nist_pnn": {
+    "selected": {
+      "config": {
+        "id": "f24_lr0.0003",
+        "features": 24,
+        "lr": 0.0003,
+        "augment": false
+      },
+      "validation_m": 1.519507694783183,
+      "epochs": {
+        "L_LA": 80,
+        "L_LB": 930,
+        "R2_concave_T_R2A": 200,
+        "R2_concave_T_R2B": 80,
+        "R3_oblique_hexagon_R3A": 90,
+        "R3_oblique_hexagon_R3B": 130
+      }
+    }
+  },
+  "nist_sst": {
+    "selected": {
+      "config": {
+        "id": "medium_aug0",
+        "size": "medium",
+        "lr": 0.002,
+        "augment": false
+      },
+      "validation_m": 1.5463468009252492,
+      "epochs": {
+        "L_LA": 240,
+        "L_LB": 550,
+        "R2_concave_T_R2A": 220,
+        "R2_concave_T_R2B": 10,
+        "R3_oblique_hexagon_R3A": 40,
+        "R3_oblique_hexagon_R3B": 170
+      }
+    }
+  },
+  "nist_cao": {
+    "selected": {
+      "config": {
+        "id": "lr0.001",
+        "lr": 0.001,
+        "augment": false
+      },
+      "validation_m": 1.7578219252920824,
+      "epochs": {
+        "L_LA": 40,
+        "L_LB": 70,
+        "R2_concave_T_R2A": 60,
+        "R2_concave_T_R2B": 10,
+        "R3_oblique_hexagon_R3A": 50,
+        "R3_oblique_hexagon_R3B": 30
+      }
+    }
+  },
+  "uwb_pnn": {
+    "selected": {
+      "config": {
+        "id": "f9_lr0.001",
+        "features": 9,
+        "lr": 0.001,
+        "augment": false
+      },
+      "validation_m": 0.8884911115181163,
+      "epochs": {
+        "uwb": 650
+      }
+    }
+  },
+  "uwb_sst": {
+    "selected": {
+      "config": {
+        "id": "medium_aug0",
+        "size": "medium",
+        "lr": 0.002,
+        "augment": false
+      },
+      "validation_m": 2.350457083745782,
+      "epochs": {
+        "uwb": 235
+      }
+    }
+  },
+  "uwb_cao": {
+    "selected": {
+      "config": {
+        "id": "global_lr0.0003",
+        "lr": 0.0003,
+        "augment": false,
+        "power_scaling": "global"
+      },
+      "validation_m": 3.033053087217003,
+      "epochs": {
+        "uwb": 155
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "method": "cao",
+  "config": {
+    "id": "lr0.001",
+    "lr": 0.001,
+    "augment": false
+  },
+  "seed": 9102,
+  "epochs": 10,
+  "stopped_epoch": 10,
+  "parameters": 2346242,
+  "best_validation_m": null,
+  "training_count": 126,
+  "validation_count": 0,
+  "seconds": 0.5723082999757025,
+  "history": [
+    {
+      "epoch": 10,
+      "train_m": 1.2494515138699063,
+      "lr": 0.0009511101304657719
+    }
+  ],
+  "model_sha256": "e453cad8665009a8ff7a36fce4885936b6986d1c7b714019adc03a0d2d140981",
+  "test_mean_m": 1.6673817809363998
+}

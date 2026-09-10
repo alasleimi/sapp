@@ -1,0 +1,11 @@
+{
+  "epochs": 300,
+  "candidates": {
+    "100": 1.7343968749046326,
+    "150": 1.6186606685320537,
+    "200": 1.5566663146018982,
+    "250": 1.5275466879208883,
+    "300": 1.5269951224327087
+  },
+  "criterion": "Equal-room fresh-layout validation mean, last ten epochs at each endpoint"
+}

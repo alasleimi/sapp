@@ -1,0 +1,342 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{amsmath,amssymb,bm,booktabs,array,multirow}
+\usepackage{graphicx,xcolor,cite,microtype,url}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage[hidelinks]{hyperref}
+\usepackage{flushend}
+\usepackage{etoolbox}
+\patchcmd{\abstract}{---}{: }{}{\errmessage{Abstract separator patch failed}}
+\patchcmd{\IEEEkeywords}{---}{: }{}{\errmessage{Keyword separator patch failed}}
+\hypersetup{pdfauthor={},pdftitle={Survey-Inferred Anchor Point Processes for Delay-Only Multipath Localization}}
+\graphicspath{{figures/}}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\dbltextfloatsep}{9pt plus 2pt minus 2pt}
+\setlength{\floatsep}{7pt plus 2pt minus 2pt}
+\newcommand{\D}{\mathcal D}
+\newcommand{\Y}{\mathcal Y}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\input{generated/results.tex}
+\begin{document}
+\bstctlcite{SAPPbstcontrol}
+\title{Survey-Inferred Anchor Point Processes for\\Delay-Only Multipath Localization}
+\author{\IEEEauthorblockN{Anonymous Authors}}
+\maketitle
+
+\begin{abstract}
+An indoor receiver detects several delayed copies of a signal transmitted by an access point (AP). The survey-inferred anchor point process (SAPP) learns how these delays vary with receiver position from measurements at known coordinates. It fits virtual sources to repeatable paths, learns where those paths are observed, and interpolates the remaining delay patterns from nearby survey positions. These components form a likelihood for estimating position from a single query measurement. The method assumes synchronized delays and a fixed horizontal receiver plane, and requires neither AP coordinates nor a floor plan.
+
+The evaluation uses NIST quasi-deterministic 60~GHz channels for 5,400 queries across three simulated rooms, six AP placements and 27 object layouts. With a common survey and at most nine detected delays, SAPP achieves \MedianMean~m mean position error, compared with \MapMean~m for MPUrge-MAP, \CnnMean~m for the published CNN architecture and 1.253~m for an independently tuned map using local delay patterns alone. The learned paths improve delay prediction in areas excluded from the training survey. On measured UWB channels, SAPP achieves 0.279~m mean error using six anchors and 515 survey positions on an independently recorded test trajectory.
+\end{abstract}
+
+\begin{IEEEkeywords}
+indoor localization, multipath fingerprinting, virtual anchors, point process, channel impulse response
+\end{IEEEkeywords}
+
+\section{Introduction}
+An indoor radio signal reaches a receiver along direct and reflected paths. The arrival delay of each copy depends on its path length, so the observed delay pattern changes with receiver position. Fingerprinting records these patterns at surveyed coordinates and uses the resulting database to locate later measurements. Multipath component analysis (MCA) compares coincident delays \cite{zayets2017mca}; MPUrge-MAP matches local delay patterns and interpolates between reference coordinates \cite{abdmoulah2026mpurgemap}. A recent CNN predicts probabilities over reference locations or a receiver coordinate from the strongest nine delays and spatial context \cite{abdmoulah2026cnn}.
+
+Propagation models can predict how delays change between survey positions. Virtual-source and angle-delay methods use this structure to extend fingerprint maps or estimate position \cite{zayets2018interpolation,li2023radiomap,yu2026spatialconsistency}. Learning the structure from delays alone requires finding observations of the same path across several locations. Paths can disappear, merge or change delay order, and objects introduced after surveying can block established paths or create new reflections.
+
+SAPP fits virtual sources whose predicted path lengths agree with delays observed across the survey. It learns how frequently each source is observed near a candidate position. A local density estimate retains delay patterns that these sources leave unexplained. Together, the fitted paths and local patterns predict the delays expected at a candidate position. SAPP compares a query measurement with those predictions to estimate the receiver's location.
+
+We introduce a localization map that combines fitted propagation paths with a spatial density of unexplained delays in one likelihood. Removing the fitted paths tests their contribution to localization; changing the source estimator tests the choice of fitting procedure. To test predictions away from training measurements, we exclude areas from the survey and evaluate the predicted delays there. A separate experiment uses exact simulator delays to check whether the fitted paths still help when peak detection is bypassed. We compare localization errors with published fingerprinting and power-profile methods and evaluate SAPP on recorded UWB channels.
+
+\section{Related Work and Problem Setting}
+\subsection{Fingerprint matching and learned localization}
+MCA compares multipath profiles at surveyed locations; its extended study demonstrates robustness to changing NLOS environments using measured radio channels \cite{zayets2017mca,zayets2021privacy}. MPUrge constructs path correspondences between reference fingerprints for virtual-transmitter trilateration \cite{abdmoulah2025mpurge}. MPUrge-MAP adapts this matching engine to query localization with normalized pattern costs and weighted reference interpolation \cite{abdmoulah2026mpurgemap}. The CNN of Abdmoulah \emph{et al.} learns reference classification or coordinate regression \cite{abdmoulah2026cnn}. Power-delay-profile (PDP) networks learn from amplitudes and delay-bin positions. Oh \emph{et al.}'s P-NN combines selected-bin features with convolution and nonlocal attention \cite{oh2024pnn}. Masrur \emph{et al.} introduce sensor-snapshot tokenization and the L-SwiGLU Transformer for distributed sensors \cite{masrur2025transforming}. Cao \emph{et al.} combine an adaptive PDP representation with an AP-token Transformer for changing bandwidths \cite{cao2026pdp}. Angle-delay power-spectrum matching additionally uses array channel information \cite{hu2024adps}.
+
+Channel charting learns a spatial embedding from channel similarities. Stahlke \emph{et al.} develop a time-distance metric for synchronized channels and compare learned charts, including a convolutional autoencoder followed by UMAP, on measured 5G and UWB data \cite{stahlke2023charting}. Aligning the learned chart with known coordinates allows its outputs to be expressed as physical positions. SAPP uses labeled survey coordinates directly to fit its geometric and residual intensity fields; the UWB experiment evaluates this surveyed-localization setting.
+
+\subsection{Virtual sources and propagation maps}
+Virtual-transmitter (VT) placement matches delay clusters across references, fits sources by trilateration, and synthesizes fingerprints for localization \cite{zayets2018interpolation}. This provides a geometric comparator using the same delay-only survey. The subsequent geometry-reconstruction method filters candidate VTs by delay agreement across the survey and clusters surviving positions before reconstructing reflecting surfaces \cite{zayets2019reconstruction}. SMART-LEA refines an initial position using known room geometry and transmitter locations \cite{abdmoulah2026smartlea}; radio-map extrapolation can also exploit joint angle-delay observations \cite{li2023radiomap}.
+
+Yu \emph{et al.} cluster spatially consistent departure-angle and delay observations at known training positions, reconstruct shared reflecting or scattering objects using the base station as a coordinate reference, and localize targets by iterative convex optimization \cite{yu2026spatialconsistency}. Their study includes measured localization with a map inferred from two training positions. SAPP learns its propagation representation from unordered delays and survey coordinates, without angular measurements or AP coordinates.
+
+Chen \emph{et al.} learn physical and virtual anchors from known training positions and time-of-arrival measurements using a feature-mapping PHD filter, then localize a moving terminal through belief propagation \cite{chen2022unsimultaneous}. Their model treats uncertain association and missed detections probabilistically and uses uniform Poisson false alarms. This work already separates learning an anchor map from localizing later measurements. SAPP uses batch consensus fitting, spatial expected-count fields, and a learned residual delay intensity to score independent query snapshots. The residual field models repeatable unexplained delays as a function of position.
+
+Kuang \emph{et al.} use RANSAC to extend multipath tracks after structure-from-motion initialization: peak-pair hypotheses define far-field delay curves, which are scored by inlier support and refined \cite{kuang2013anchorfree}. SAPP uses known survey coordinates to fit the exact three-parameter range family and retains sources supported by several survey positions. Anonymous association and image-source fitting also appear in acoustics \cite{dokmanic2013echoes,puomio2021imagesources}.
+
+Channel-SLAM and belief-propagation methods jointly estimate a moving receiver and virtual anchors from sequential observations \cite{gentner2016channelslam,leitinger2019belief,leitinger2023datafusion}; visibility maps and stochastic association handle intermittent paths \cite{ulmschneider2020visibility,karasek2020association}. Pedersen approximates mirror-source-induced delay arrivals by an inhomogeneous Poisson process for stochastic channel modeling \cite{pedersen2019stochastic}. SAPP combines fitted path predictions with spatially varying source counts and a learned density of unexplained delays. The experiments measure how each part affects localization. The geometric median supplies a standard decision rule for Euclidean error; component controls evaluate the map under both decoders.
+
+\subsection{Available observations}
+Let \(\bm x_i\in\mathbb R^2\) denote a surveyed coordinate and \(\Y_i=\{y_{i1},\ldots,y_{iM_i}\}\) its observed path ranges, obtained by multiplying delays by wave speed. The database is \(\D=\{(\bm x_i,\Y_i)\}_{i=1}^N\). Given a query set \(\Y=\{y_1,\ldots,y_M\}\), we estimate its two-dimensional coordinate \(\bm x\). All ranges lie in the receiver interval \([0,R]\).
+
+SAPP uses only \(\D\) and \(\Y\). The fixed APs and UWB transceivers serve as physical anchors, each with a separate survey map. The primary simulation study localizes each query from one AP; the measured study also combines maps in their common surveyed coordinate frame. The surveyed coordinates define the area searched for the receiver. Wall and object geometry, the AP coordinate, receiver height, angles, path identities, and query-layout labels are absent from the estimator. Synchronized delays and a fixed horizontal receiver plane are assumed. A new room requires its own fingerprint survey.
+
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{method.pdf}
+\caption{From surveyed coordinates and delay measurements, SAPP fits virtual sources and learns where their paths are observed. A local density estimate represents unexplained delays. Their combined likelihood scores candidate receiver positions; a posterior mode or geometric median gives the position estimate.}
+\label{fig:method}
+\end{figure*}
+
+\section{Survey-Inferred Anchor Point Process}
+SAPP proceeds in three stages. First, it fits virtual sources from surveyed positions and delay measurements. Second, it learns where each source is observed and models the delays that the sources leave unexplained. Third, it compares a query's observed delays with the predictions at candidate positions, using the resulting likelihood to estimate the receiver's location.
+
+\subsection{Fitting virtual sources from unordered delays}
+A fitted \emph{source} is an effective point whose distance to the receiver predicts a path length. Its \emph{range surface} describes how that prediction changes with receiver position. On a horizontal receiver plane, the range is
+\begin{equation}
+r_j(\bm x)=\sqrt{\|\bm x-\bm u_j\|_2^2+q_j^2},
+\label{eq:range}
+\end{equation}
+where \(\bm u_j\in\mathbb R^2\) gives the source's horizontal coordinates and \(q_j\geq0\) its vertical separation from the receiver plane. Both are inferred. The same family can represent a direct path and specular reflections without distinguishing their physical identities.
+
+Three noncollinear survey coordinates and one selected range per coordinate define a minimal hypothesis. Subtracting squared instances of (\ref{eq:range}) gives
+\begin{equation}
+2(\bm x_b-\bm x_1)^\top\bm u
+=\|\bm x_b\|^2-\|\bm x_1\|^2-(y_b^2-y_1^2),
+\quad b=2,3.
+\label{eq:triplet}
+\end{equation}
+The equations determine \(\bm u\), then \(q^2=y_1^2-\|\bm x_1-\bm u\|^2\). Many triplets combine peaks from unrelated paths. We retain a source hypothesis only when its predicted ranges also match peaks at other survey positions.
+
+We sample 30,000 triplets using RANSAC \cite{fischler1981ransac}. At each survey location, a hypothesis is compared with the nearest available peak. The ranking combines support within a tolerance \(\tau\) with a smooth residual score; the 2~GHz simulation study uses \(\tau=0.18\)~m. Ill-conditioned triplets and materially negative \(q^2\) are rejected. Hypotheses are sampled once; the retained pool is rescored against the remaining peaks after each extraction. The strongest candidate is refined with a robust soft-\(\ell_1\) fit and retained when its support reaches \(\max(5,\lceil0.08N\rceil)\). Its nearest inlier is removed from each supporting fingerprint. Greedy extraction uses at most 20 passes and stops when support is insufficient. Sources are treated as duplicates when the root-mean-square difference between their predicted survey ranges is below 0.12~m.
+
+Matching a source across survey positions allows peak order to change and paths to disappear between measurements. A fitted source can also represent several physical paths that the receiver cannot resolve separately.
+
+\subsection{Soft association and visibility}
+Let \(T_3(y;\mu,\sigma)\) be a Student density with three degrees of freedom, scale \(\sigma\), and normalization on \([0,R]\). The simulation study uses \(\sigma=0.16\)~m. Its heavy tails accommodate differences between measured ranges and those predicted by a fitted source. Four soft-association iterations allocate survey peaks between the sources and a uniform component. Given global expected counts \(\bar\nu_j\) and uniform count \(\kappa\), the responsibility of source \(j\) for peak \(m\) is
+\begin{equation}
+z_{imj}=\frac{\bar\nu_jT_3(y_{im};r_j(\bm x_i),\sigma)}
+{\kappa/R+\sum_\ell\bar\nu_\ell T_3(y_{im};r_\ell(\bm x_i),\sigma)}.
+\label{eq:responsibility}
+\end{equation}
+Summing responsibilities over peaks gives $c_{ij}$, the expected count for source $j$ at survey position $i$. After estimating the source counts, a final association pass gives residual weights $w_{im}$ for the unexplained portion of each peak. Supplementary Sec.~S1 specifies the count updates and evaluation order.
+
+Spatial variation in \(c_{ij}\) captures source visibility. Define \(K_i(\bm x)=\exp[-\|\bm x-\bm x_i\|^2/(2h^2)]\), with \(h=d_{\rm NN}/\sqrt2\) and \(d_{\rm NN}\) the median nearest-reference spacing. The local expected source count is
+\begin{equation}
+\nu_j(\bm x)=\operatorname{clip}_{[0.015,1.8]}
+\frac{\sum_iK_i(\bm x)c_{ij}+w_0\bar\nu_j}{\sum_iK_i(\bm x)+w_0},
+\qquad w_0=0.5.
+\label{eq:visibility}
+\end{equation}
+The source intensity, measured in expected peaks per unit range, is
+\begin{align}
+a(y\mid\bm x)&=\sum_j\nu_j(\bm x)T_3(y;r_j(\bm x),\sigma),\nonumber\\
+A_a(\bm x)&=\sum_j\nu_j(\bm x).
+\end{align}
+The expected count $\nu_j$ expresses visibility while allowing an effective source to explain several nearby peaks. Its spatial field smoothly connects observed portions of a path.
+
+\subsection{Modeling unexplained delays}
+Some repeatable survey peaks remain unexplained by the fitted sources. Their residual weights \(w_{im}\) form a kernel estimate
+\begin{equation}
+b(y\mid\bm x)=\frac{\sum_iK_i(\bm x)\sum_mw_{im}T_3(y;y_{im},\sigma)
++w_0\bar b(y)}{\sum_iK_i(\bm x)+w_0},
+\label{eq:residual}
+\end{equation}
+where \(\bar b(y)=N^{-1}\sum_{i,m}w_{im}T_3(y;y_{im},\sigma)\). The expected residual count \(A_b(\bm x)=\int_0^R b(y\mid\bm x)\,dy\) follows by replacing each normalized \(T_3\) kernel with one. The full survey intensity and expected count are
+\begin{equation}
+f(y\mid\bm x)=a(y\mid\bm x)+b(y\mid\bm x),\qquad
+A(\bm x)=A_a(\bm x)+A_b(\bm x).
+\end{equation}
+Fitted sources predict how path lengths change between survey positions. The residual term retains local delay patterns caused by unresolved interference or paths observed at too few positions for source fitting.
+
+\subsection{Likelihood of a query delay set}
+New objects can suppress established propagation and add reflections. We use the candidate intensity
+\begin{equation}
+\lambda(y\mid\bm x)=s f(y\mid\bm x)+k/R,\qquad
+s=0.75,\quad k=2.
+\label{eq:intensity}
+\end{equation}
+The factor \(s\) reduces the expected number of peaks associated with the survey map; \(k\) is the expected number of additional peaks, distributed uniformly over the receiver interval. With the fitted sources fixed, a Poisson model on the detected range axis \cite{mahler2007fisst,george2016pointprocess} gives
+\begin{equation}
+\ell(\bm x;\Y)=-sA(\bm x)-k+
+\sum_{m=1}^M\log\left[s f(y_m\mid\bm x)+k/R\right].
+\label{eq:score}
+\end{equation}
+Terms independent of position cancel in the maximization. The integral term penalizes a candidate that predicts too many peaks. The log terms measure how well the predicted intensity explains the observed ranges. Each peak can be explained by a fitted source, the residual density or the uniform term, without selecting a single source assignment.
+
+The role of count information follows by writing \(\Lambda(\bm x)=sA(\bm x)+k\) and \(g(y\mid\bm x)=\lambda(y\mid\bm x)/\Lambda(\bm x)\). Then
+\begin{equation}
+\ell(\bm x;\Y)=\underbrace{-\Lambda(\bm x)+M\log\Lambda(\bm x)}_{\text{cardinality contribution}}
++\sum_m\log g(y_m\mid\bm x).
+\label{eq:count}
+\end{equation}
+The final sum measures the normalized delay pattern. The first term also asks whether that coordinate predicts a plausible number of observed peaks. A control removes this peak-count contribution without refitting the radio map.
+
+For fixed intensity values, (\ref{eq:score}) costs \(O(M)\) per candidate. The receiver introduces dependence through coherent interference, merging, and strongest-peak selection. We therefore use (\ref{eq:score}) as an approximate likelihood for the retained peaks. Section~\ref{sec:ablations} measures the cardinality contribution at two peak budgets.
+
+\subsection{Estimating receiver position}
+The decoder places a grid of step $\Delta=0.10$~m over the coordinate extent of the survey, padded by \(d_{\rm NN}/2\) on each side. A candidate is retained when it lies within $\max(0.82d_{\rm NN},2\Delta)$ of a reference point. This restricts the search to neighborhoods of surveyed positions and follows concave survey shapes without using wall coordinates. With a uniform position prior,
+\begin{equation}
+\hat{\bm x}=\argmax_{\bm x\in\mathcal X_{\D}}\ell(\bm x;\Y).
+\end{equation}
+The mode is refined on a 0.025~m grid over the best coarse candidate's surrounding 0.20~m square, retaining the same support test. A second decision rule minimizes expected Euclidean error under the grid posterior. With \(w_{\bm x}\propto\exp[\ell(\bm x;\Y)]\), normalized over coarse candidates, it computes
+\begin{equation}
+\tilde{\bm x}=\argmin_{\bm z\in\mathbb R^2}\sum_{\bm x\in\mathcal X_{\D}}
+w_{\bm x}\|\bm z-\bm x\|_2.
+\label{eq:median}
+\end{equation}
+We solve (\ref{eq:median}) by Weiszfeld iteration. If the solution falls outside the search area, projection to the nearest candidate gives a feasible approximation. The two decision rules use the same fitted intensity.
+
+Offline fitting permits caching candidate-to-source ranges, source visibility, and spatial weights. If \(J\) is source count, \(P\) the number of retained survey peaks, and \(G\) the candidate count, the batched implementation costs \(O(GMJ+PM+GNM)\) per query. The terms evaluate source kernels, residual kernels, and spatial interpolation, respectively. Storing and evaluating the residual density therefore becomes more expensive as the survey grows.
+
+\begin{algorithm}[t]
+\caption{SAPP: survey fit and single-query localization}
+\label{alg:method}
+\begin{algorithmic}[1]
+\Require Survey \(\D\), query delay set \(\Y\)
+\State If $\Y=\varnothing$, return the survey centroid
+\State Fit sources by triplet consensus, removing their supporting peaks after each fit
+\State Compute source and residual responsibilities
+\State Form spatial visibility and residual fields, (\ref{eq:visibility})--(\ref{eq:residual})
+\State Construct the candidate position grid from survey coordinates
+\For{candidate \(\bm x\)}
+\State Evaluate the combined intensity and score (\ref{eq:score})
+\EndFor
+\State Return the refined posterior mode or geometric median
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Combining measurements from multiple anchors}
+\label{sec:fusion}
+For several anchors observed at one query position, let $\ell_a(\bm x;\Y^{(a)})$ denote (\ref{eq:score}) for anchor $a$. Maps fitted in a common survey frame define the joint grid weights
+\begin{equation}
+w_{\bm x}\propto\exp\left[\frac{1}{T}\sum_{a=1}^{K}\ell_a(\bm x;\Y^{(a)})\right].
+\label{eq:fusion}
+\end{equation}
+The geometric median in (\ref{eq:median}) decodes these weights. The summed scores combine evidence from the anchors. Dependence between their measurements can affect the spread of the resulting posterior. The temperature $T>0$ is selected on training-survey holdouts to minimize mean position error; SAPP's single-AP simulations use $T=1$. The anchor surveys share a common coordinate frame.
+
+\section{Experimental Design}
+\subsection{Rooms, surveys, and obstruction layouts}
+The evaluation uses native NIST quasi-deterministic channel realizations at 60~GHz \cite{lecci2020qd,nistqdsoftware}. Figure~\ref{fig:rooms} shows an L-shaped room, an eight-wall T-shaped room, and an oblique hexagon. Their horizontal extents are approximately \(6.5\times7\), \(7\times6.5\), and \(7.8\times7\)~m, respectively. Ceiling heights are 3.2, 3.4, and 3.0~m; receiver heights are 1.15, 0.95, and 1.45~m. Each room has two AP placements, evaluated as separate single-AP conditions.
+
+Empty-room surveys use a 0.5~m spatial grid, giving 164, 126, and 160 coordinates per AP. Each room has 100 new off-grid query positions and nine independently sampled object layouts, with three layouts each containing one, three, or five metal plates. A plate is 1~m wide and extends from 0.75 to 2.15~m in height. Plate centers and orientations are sampled uniformly subject to wall, AP, and interplate clearance. Query positions are uniform over the accessible room interior and exclude survey coordinates. All 27 layouts and all 5,400 query--AP cases enter the reported results.
+
+Specular paths through reflection order two are enabled in every room. The L and T rooms use the TGay material model with diffuse generation disabled. The oblique room uses the NIST measurement-based diffuse model with a \(-25\)~dB diffuse-path threshold. Its wall, ceiling, and floor statistics come from the NIST lecture-room library; plates use the data-center rack-top statistics. This room jointly tests an oblique boundary and a different scattering regime.
+
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{rooms.pdf}
+\caption{Three evaluation geometries. Dots show surveyed coordinates, stars show the two separately evaluated APs, and segments illustrate one five-plate layout. Room L has six boundary walls, room T has eight, and the oblique hexagon has six. Query coordinates and nine object layouts are sampled independently within each room. The oblique condition includes diffuse propagation.}
+\label{fig:rooms}
+\end{figure*}
+
+\subsection{Receiver observations and common budget}
+Native path delays, complex gains, and arrival angles are converted to receiver delay peaks before localization. The front end coherently sums the paths at a fixed \(2\times2\times2\) array with half-wavelength spacing, convolves them with the sinc response of an ideal 2~GHz rectangular band, and samples delay at \(1/B\). It adds independent complex AWGN to each array element and averages their received powers. SNR is 40~dB relative to the strongest clean delay bin. A local maximum is retained if it exceeds both the estimated noise floor by 8~dB and the strongest observed peak minus 45~dB. Three-sample parabolic interpolation refines each peak location. The range window is 25~m.
+
+The primary comparison keeps the strongest nine detected peaks. SAPP, MPUrge-MAP, and MCA receive them as unordered delay sets. The CNN retains their received-power ordering, as specified in its source paper, and also receives its AP and reference-coordinate context. It receives no peak amplitudes. All methods use the same underlying receiver realization and the same surveyed coordinates. A separate 24-peak comparison measures the effect of increasing the retained delay budget for SAPP and matching methods.
+
+\subsection{Exact simulator path delays}
+\label{sec:rawsetup}
+A second localization experiment bypasses the receiver model and peak detector. The input is the exact propagation delay of each of the nine strongest eligible NIST paths, ranked by simulated path gain and restricted to path lengths in $(0,25]$~m. Distinct paths with coincident delays remain separate observations. The rooms, survey coordinates, query positions and object layouts are identical to the receiver experiment. SAPP is refitted to these exact-delay surveys with the same fitting parameters and decoding rules. This experiment tests whether fitted sources still improve localization when the input comes directly from the channel simulator.
+
+\subsection{Comparators and training}
+\emph{MPUrge-MAP} uses normalized local delay patterns, reciprocal matching, and inverse-score interpolation over three references \cite{abdmoulah2026mpurgemap}. Its delay window and weighting are \(p=2\) and \(\alpha=0.7\), selected on rectangular development rooms. \emph{MCA} uses a 0.5~m coincidence tolerance and its best reference \cite{zayets2017mca}. \emph{Chamfer weighted kNN} averages the nearest-delay distance in both directions between a query and a survey fingerprint, then interpolates the coordinates of the closest fingerprints. Four spatial survey folds select the neighbor count and inverse-distance exponent for each NIST input type. The final comparison uses the full survey.
+
+\emph{VT interpolation} reconstructs Algorithms~1--4 of \cite{zayets2018interpolation}: cluster survey peaks, fit sources by trilateration, and synthesize fingerprints on a 0.10~m grid. The main comparison uses development-calibrated settings; Supplementary Sec.~S3.3 gives the settings, published-parameter results and matching-tolerance controls. Interpolation adds no measured survey locations.
+
+\emph{CNN regression} uses the published $6\times12$ delay-and-coordinate input, three convolutional layers and a 20-unit coordinate head \cite{abdmoulah2026cnn}. Training pools the two AP surveys in each room. Missing-path and small-jitter augmentations provide seven variants per fingerprint. A 20\% coordinate holdout selects 250 epochs, keeping both AP observations and all variants of a coordinate together. Three independent final fits use the complete survey. Supplementary Sec.~S3.2 specifies the architecture, encoding, optimization and additional-training comparisons.
+
+\emph{Recent PDP networks} reconstruct P-NN, L-SwiGLU and Cao's PDP predictor from their published architectures \cite{oh2024pnn,masrur2025transforming,cao2026pdp}. P-NN uses the strongest bin powers and their delays; the Transformers receive complete power profiles before peak detection. Cao's predictor operates at the benchmark's fixed bandwidth. Each network selects its settings and stopping duration on spatial survey holdouts, then refits on the full survey with three independent initializations. NIST fits one model per AP and room; UWB fits one joint six-anchor model. Supplementary Sec.~S3.5 gives the input representations and training procedure.
+
+SAPP and MPUrge-MAP use shared settings informed by separate rectangular development scenes. Target-room fitting uses the empty-room surveys. The anonymous supplement and the versioned reproduction archive specified in Supplementary Sec.~S6 provide the benchmark geometry, receiver, numerical settings and comparator implementations.
+
+\subsection{Ablations, stress tests, and inference}
+Component controls remove either the source or residual intensity or make source visibility spatially constant, each with mode and geometric-median decoding. Removing sources reassigns every survey peak to the residual process, preserving the decoder and spatial bandwidth. Removing the residual term preserves the sources and their counts. The constant-visibility control sets $\nu_j(\bm x)=\bar\nu_j^{(4)}$ everywhere and preserves the residual field. Separate controls remove the peak-count contribution at nine- and 24-peak caps. Each AP survey is divided into four contiguous areas, excluded in turn to test delay prediction at positions omitted from fitting. Repeating source discovery from four random initializations tests fitting stability.
+
+An additional residual-only competitor selects its spatial bandwidth, delay scale and temperature independently on four interleaved spatial survey folds. A source-fitting control uses VT cluster matching and trilateration to propose sources, then fits the original visibility and residual fields and uses the same geometric-median decoder. Training-survey validation selects its neighborhood radius. These comparisons use the full query benchmark and complement the component ablations; Supplementary Sec.~S3 gives the fitting and selection details.
+
+Further L-room experiments use 100, 64, 32, or 20 survey positions chosen by farthest-point sampling; an irregular 64-position survey with a central gap; 25~dB SNR; 1~GHz bandwidth; the combination of those receiver changes; and a query-wide range offset sampled uniformly from \([-0.30,0.30]\)~m. Offset is shared across the peaks of one query. The estimator settings remain common across these conditions. Reduced surveys require refitting the map to the retained coordinates. The 25~dB experiment also covers the diffuse oblique room with both decoders.
+
+For each query, position error is the Euclidean distance between the estimated and true receiver coordinates, in metres. We report its mean, median, 90th percentile, RMSE and the fraction exceeding 2~m. Equal numbers of cases per room, layout, and object stratum make the overall mean equally weighted over those factors. Paired 95\% intervals use 20,000 crossed bootstrap draws: layouts are resampled within room and object-count stratum, query indices are resampled within room and shared across its layouts, and the two AP cases remain paired. This accounts for repeated query positions across layouts. The room and AP configurations remain fixed during resampling.
+
+\subsection{Measured UWB channels}
+The Fraunhofer IIS fingerprinting dataset provides independently recorded training and test trajectories in an indoor environment with reflective and absorbing obstacles \cite{fraunhoferuwb,stahlke2023charting}. Six stationary transceivers observe a moving robot using a 4~GHz UWB system with 499.2~MHz bandwidth. The recorded two-way-ranging time of flight and CIR window offset place each CIR on an absolute delay axis. We follow the public 1~ns padding convention, retain the first 200~ns, and extract at most nine peaks per anchor. There are 18,034 complete training bursts and 3,382 complete test bursts; each target is the mean recorded coordinate within its burst.
+
+Farthest-point sampling of the training trajectory at 0.5~m coverage yields a map of 515 survey positions, each with observations from all six anchors. Each method selects its parameters by mean localization error on two spatial holdouts from the training data, then fits its final map using all 515 positions. SAPP and the residual map independently select spatial bandwidth, delay scale and posterior temperature. The same holdouts select the matching and interpolation parameters of MPUrge-MAP and a Chamfer weighted-kNN baseline. Supplementary Sec.~S5 specifies preprocessing, search ranges and the selected settings.
+
+All methods use the same survey positions and recorded bursts. Delay-map methods receive the same detected peaks; the neural comparators receive the power representations described above. Joint SAPP and residual localization sum the six log likelihoods; joint MPUrge-MAP and Chamfer localization average their per-anchor reference distances before interpolation. UWB likelihoods use $R=c(200\,\mathrm{ns})\simeq59.96$~m. The final maps localize all 3,382 test bursts. Paired 95\% intervals resample consecutive blocks of 100 bursts, keeping the anchor observations together. Supplementary Sec.~S5 also examines smaller retained maps and fewer observed anchors using the same selection procedure.
+
+\section{Results}
+\subsection{Localization from simulated receiver measurements}
+\input{generated/main_table.tex}
+\input{generated/primary_prose.tex}
+
+\input{generated/cnn_budget_prose.tex}
+
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{cdf.pdf}
+\caption{Single-AP localization errors from the simulated receiver measurements in Table~\ref{tab:main}. Each room contributes 1,800 queries. CNN and P-NN curves combine the error samples from three independently trained models. The two SAPP curves use the same fitted map.}
+\label{fig:cdf}
+\end{figure*}
+
+\subsection{Which components contribute?}
+\label{sec:ablations}
+\input{generated/journal_component_prose.tex}
+
+\input{generated/optimized_prose.tex}
+
+\input{generated/journal_count_prose.tex}
+
+\input{generated/journal_seed_prose.tex}
+\begin{figure}[t]
+\centering\includegraphics[width=\columnwidth]{ablations.pdf}
+\caption{Map components on the same 5,400 nine-peak cases. Blue circles denote mode decoding; orange squares denote geometric-median decoding. Points and bars give means and 95\% bootstrap intervals. The residual-only control fits its delay density to every observed survey peak.}
+\label{fig:ablations}
+\end{figure}
+
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{surface_validation.pdf}
+\caption{Delay predictions in an area excluded from the oblique-room training survey. (a) Measurements at orange positions are excluded from fitting; the dashed line marks the horizontal slice shown in (b). (b) Blue curves predict path lengths for the six sources with greatest mean visibility along the slice. Gray dots are training observations; orange circles are measurements used to check the predictions. Dashed curve segments cross the excluded area. The vertical axis is zoomed to these paths.}
+\label{fig:surfaces}
+\end{figure*}
+
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{sensitivity.pdf}
+\caption{L-room sensitivity with nine retained peaks. Left: mean error under reduced and irregular surveys. Right: receiver-bandwidth, SNR, and query-clock changes. Every condition includes the same nine layouts and 100 query positions per AP; the survey map is refitted when its observations or coordinates change. Right-panel error bars are 95\% crossed-bootstrap intervals over layouts and query positions.}
+\label{fig:sensitivity}
+\end{figure*}
+
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{failure_diagnostic.pdf}
+\caption{Multimodal likelihood in the largest L-room mode error. (a) Separated high-likelihood regions support competing receiver positions. (b) Predicted intensities at the true position and posterior mode align with several of the same observed delays. Dotted lines mark the six query peaks. The room outline is shown for orientation.}
+\label{fig:failure}
+\end{figure*}
+
+\subsection{Localization from exact simulator delays}
+\input{generated/raw_table.tex}
+\input{generated/raw_prose.tex}
+
+\subsection{Predicting delays across survey gaps}
+\input{generated/journal_surface_prose.tex}
+\input{generated/journal_surface_table.tex}
+
+
+\subsection{Survey and receiver sensitivity}
+\input{generated/stress_prose.tex}
+
+\input{generated/journal_stress_prose.tex}
+
+
+\subsection{Spatial ambiguity and decoding}
+Figure~\ref{fig:failure} illustrates a multimodal likelihood: distant positions can explain similar observed delays. For this six-peak query, the posterior mode scores only 0.70 log-likelihood units above the true position, yet gives a 9.05~m position error. The geometric median accounts for posterior mass across the competing regions and reduces the error to 2.84~m. This example explains why choosing the highest likelihood peak can produce a large error even when a plausible region lies near the true position.
+
+\subsection{Delay budget and computational cost}
+\input{generated/budget_runtime.tex}
+
+
+
+\subsection{Localization from measured UWB channels}
+\input{generated/uwb_table.tex}
+\input{generated/uwb_prose.tex}
+\begin{figure}[t]
+\centering\includegraphics[width=\columnwidth]{uwb_cdf.pdf}
+\caption{Joint six-anchor UWB error distributions with the shared 515-position survey and at most nine delays per anchor. Every curve uses the same 3,382 test bursts.}
+\label{fig:uwb}
+\end{figure}
+
+\section{Future Work}
+
+
+
+The measured study trains and tests on separate trajectories in the same installation. Future work will examine moving people, changes to the installation, and calibration drift across larger deployments. Joint clock estimation can extend the synchronized-delay model, while surveys spanning several receiver heights can support three-dimensional motion. Future work will also calibrate posterior spread against position error so that reported uncertainty reflects observed accuracy. Additional survey measurements could target areas where several positions produce similar delay patterns or where the residual map has few nearby observations.
+
+\begin{samepage}
+\section{Conclusion}
+SAPP learns a localization map by fitting repeatable propagation paths and interpolating the remaining delay patterns. It achieves \MedianMean~m mean position error across three simulated rooms, improving an independently tuned map without fitted sources by 0.131~m. On measured UWB data, SAPP achieves 0.279~m mean error with six anchors and 515 survey positions.
+\end{samepage}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}

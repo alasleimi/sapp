@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<amf unit="meter">
+	<object id="0">
+		<metadata type="name">Walls</metadata>
+		<mesh>
+			<vertices>
+				<vertex><coordinates><x>0</x><y>0</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>7</x><y>0</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>7</x><y>0</y><z>3.4</z></coordinates></vertex>
+				<vertex><coordinates><x>0</x><y>0</y><z>3.4</z></coordinates></vertex>
+			</vertices>
+			<volume materialid="1">
+				<triangle><v1>0</v1><v2>1</v2><v3>2</v3></triangle>
+				<triangle><v1>0</v1><v2>3</v2><v3>1</v3></triangle>
+			</volume>
+		</mesh>
+	</object>
+	<object id="1">
+		<metadata type="name">Walls</metadata>
+		<mesh>
+			<vertices>
+				<vertex><coordinates><x>7</x><y>0</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>7</x><y>3</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>7</x><y>3</y><z>3.4</z></coordinates></vertex>
+				<vertex><coordinates><x>7</x><y>0</y><z>3.4</z></coordinates></vertex>
+			</vertices>
+			<volume materialid="1">
+				<triangle><v1>0</v1><v2>1</v2><v3>2</v3></triangle>
+				<triangle><v1>0</v1><v2>3</v2><v3>1</v3></triangle>
+			</volume>
+		</mesh>
+	</object>
+	<object id="2">
+		<metadata type="name">Walls</metadata>
+		<mesh>
+			<vertices>
+				<vertex><coordinates><x>7</x><y>3</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>5</x><y>3</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>5</x><y>3</y><z>3.4</z></coordinates></vertex>
+				<vertex><coordinates><x>7</x><y>3</y><z>3.4</z></coordinates></vertex>
+			</vertices>
+			<volume materialid="1">
+				<triangle><v1>0</v1><v2>1</v2><v3>2</v3></triangle>
+				<triangle><v1>0</v1><v2>3</v2><v3>1</v3></triangle>
+			</volume>
+		</mesh>
+	</object>
+	<object id="3">
+		<metadata type="name">Walls</metadata>
+		<mesh>
+			<vertices>
+				<vertex><coordinates><x>5</x><y>3</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>5</x><y>6.5</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>5</x><y>6.5</y><z>3.4</z></coordinates></vertex>
+				<vertex><coordinates><x>5</x><y>3</y><z>3.4</z></coordinates></vertex>
+			</vertices>
+			<volume materialid="1">
+				<triangle><v1>0</v1><v2>1</v2><v3>2</v3></triangle>
+				<triangle><v1>0</v1><v2>3</v2><v3>1</v3></triangle>
+			</volume>
+		</mesh>
+	</object>
+	<object id="4">
+		<metadata type="name">Walls</metadata>
+		<mesh>
+			<vertices>
+				<vertex><coordinates><x>5</x><y>6.5</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>2</x><y>6.5</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>2</x><y>6.5</y><z>3.4</z></coordinates></vertex>
+				<vertex><coordinates><x>5</x><y>6.5</y><z>3.4</z></coordinates></vertex>
+			</vertices>
+			<volume materialid="1">
+				<triangle><v1>0</v1><v2>1</v2><v3>2</v3></triangle>
+				<triangle><v1>0</v1><v2>3</v2><v3>1</v3></triangle>
+			</volume>
+		</mesh>
+	</object>
+	<object id="5">
+		<metadata type="name">Walls</metadata>
+		<mesh>
+			<vertices>
+				<vertex><coordinates><x>2</x><y>6.5</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>2</x><y>3</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>2</x><y>3</y><z>3.4</z></coordinates></vertex>
+				<vertex><coordinates><x>2</x><y>6.5</y><z>3.4</z></coordinates></vertex>
+			</vertices>
+			<volume materialid="1">
+				<triangle><v1>0</v1><v2>1</v2><v3>2</v3></triangle>
+				<triangle><v1>0</v1><v2>3</v2><v3>1</v3></triangle>
+			</volume>
+		</mesh>
+	</object>
+	<object id="6">
+		<metadata type="name">Walls</metadata>
+		<mesh>
+			<vertices>
+				<vertex><coordinates><x>2</x><y>3</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>0</x><y>3</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>0</x><y>3</y><z>3.4</z></coordinates></vertex>
+				<vertex><coordinates><x>2</x><y>3</y><z>3.4</z></coordinates></vertex>
+			</vertices>
+			<volume materialid="1">
+				<triangle><v1>0</v1><v2>1</v2><v3>2</v3></triangle>
+				<triangle><v1>0</v1><v2>3</v2><v3>1</v3></triangle>
+			</volume>
+		</mesh>
+	</object>
+	<object id="7">
+		<metadata type="name">Walls</metadata>
+		<mesh>
+			<vertices>
+				<vertex><coordinates><x>0</x><y>3</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>0</x><y>0</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>0</x><y>0</y><z>3.4</z></coordinates></vertex>
+				<vertex><coordinates><x>0</x><y>3</y><z>3.4</z></coordinates></vertex>
+			</vertices>
+			<volume materialid="1">
+				<triangle><v1>0</v1><v2>1</v2><v3>2</v3></triangle>
+				<triangle><v1>0</v1><v2>3</v2><v3>1</v3></triangle>
+			</volume>
+		</mesh>
+	</object>
+	<object id="8">
+		<metadata type="name">Floor</metadata>
+		<mesh>
+			<vertices>
+				<vertex><coordinates><x>0</x><y>0</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>7</x><y>0</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>7</x><y>3</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>5</x><y>3</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>5</x><y>6.5</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>2</x><y>6.5</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>2</x><y>3</y><z>0</z></coordinates></vertex>
+				<vertex><coordinates><x>0</x><y>3</y><z>0</z></coordinates></vertex>
+			</vertices>
+			<volume materialid="3">
+				<triangle><v1>7</v1><v2>0</v2><v3>1</v3></triangle>
+				<triangle><v1>1</v1><v2>2</v2><v3>3</v3></triangle>
+				<triangle><v1>3</v1><v2>4</v2><v3>5</v3></triangle>
+				<triangle><v1>1</v1><v2>3</v2><v3>5</v3></triangle>
+				<triangle><v1>1</v1><v2>5</v2><v3>6</v3></triangle>
+				<triangle><v1>1</v1><v2>6</v2><v3>7</v3></triangle>
+			</volume>
+		</mesh>
+	</object>
+	<object id="9">
+		<metadata type="name">Ceiling</metadata>
+		<mesh>
+			<vertices>
+				<vertex><coordinates><x>0</x><y>0</y><z>3.4</z></coordinates></vertex>
+				<vertex><coordinates><x>7</x><y>0</y><z>3.4</z></coordinates></vertex>
+				<vertex><coordinates><x>7</x><y>3</y><z>3.4</z></coordinates></vertex>
+				<vertex><coordinates><x>5</x><y>3</y><z>3.4</z></coordinates></vertex>
+				<vertex><coordinates><x>5</x><y>6.5</y><z>3.4</z></coordinates></vertex>
+				<vertex><coordinates><x>2</x><y>6.5</y><z>3.4</z></coordinates></vertex>
+				<vertex><coordinates><x>2</x><y>3</y><z>3.4</z></coordinates></vertex>
+				<vertex><coordinates><x>0</x><y>3</y><z>3.4</z></coordinates></vertex>
+			</vertices>
+			<volume materialid="2">
+				<triangle><v1>7</v1><v2>1</v2><v3>0</v3></triangle>
+				<triangle><v1>1</v1><v2>3</v2><v3>2</v3></triangle>
+				<triangle><v1>3</v1><v2>5</v2><v3>4</v3></triangle>
+				<triangle><v1>1</v1><v2>5</v2><v3>3</v3></triangle>
+				<triangle><v1>1</v1><v2>6</v2><v3>5</v3></triangle>
+				<triangle><v1>1</v1><v2>7</v2><v3>6</v3></triangle>
+			</volume>
+		</mesh>
+	</object>
+	<object id="10">
+		<metadata type="name">RobustnessPlate1</metadata>
+		<mesh>
+			<vertices>
+				<vertex><coordinates><x>3.79161529</x><y>3.27577625</y><z>0.75</z></coordinates></vertex>
+				<vertex><coordinates><x>3.79161529</x><y>3.27577625</y><z>2.15</z></coordinates></vertex>
+				<vertex><coordinates><x>2.79343812</x><y>3.33612806</y><z>2.15</z></coordinates></vertex>
+				<vertex><coordinates><x>2.79343812</x><y>3.33612806</y><z>0.75</z></coordinates></vertex>
+			</vertices>
+			<volume materialid="4">
+				<triangle><v1>0</v1><v2>1</v2><v3>2</v3></triangle>
+				<triangle><v1>0</v1><v2>2</v2><v3>3</v3></triangle>
+			</volume>
+		</mesh>
+	</object>
+	<object id="11">
+		<metadata type="name">RobustnessPlate2</metadata>
+		<mesh>
+			<vertices>
+				<vertex><coordinates><x>6.1992586</x><y>1.4919956</y><z>0.75</z></coordinates></vertex>
+				<vertex><coordinates><x>6.1992586</x><y>1.4919956</y><z>2.15</z></coordinates></vertex>
+				<vertex><coordinates><x>5.28586401</x><y>1.89907093</y><z>2.15</z></coordinates></vertex>
+				<vertex><coordinates><x>5.28586401</x><y>1.89907093</y><z>0.75</z></coordinates></vertex>
+			</vertices>
+			<volume materialid="4">
+				<triangle><v1>0</v1><v2>1</v2><v3>2</v3></triangle>
+				<triangle><v1>0</v1><v2>2</v2><v3>3</v3></triangle>
+			</volume>
+		</mesh>
+	</object>
+	<object id="12">
+		<metadata type="name">RobustnessPlate3</metadata>
+		<mesh>
+			<vertices>
+				<vertex><coordinates><x>4.94535913</x><y>1.30645308</y><z>0.75</z></coordinates></vertex>
+				<vertex><coordinates><x>4.94535913</x><y>1.30645308</y><z>2.15</z></coordinates></vertex>
+				<vertex><coordinates><x>4.2623551</x><y>2.03686768</y><z>2.15</z></coordinates></vertex>
+				<vertex><coordinates><x>4.2623551</x><y>2.03686768</y><z>0.75</z></coordinates></vertex>
+			</vertices>
+			<volume materialid="4">
+				<triangle><v1>0</v1><v2>1</v2><v3>2</v3></triangle>
+				<triangle><v1>0</v1><v2>2</v2><v3>3</v3></triangle>
+			</volume>
+		</mesh>
+	</object>
+	<object id="13">
+		<metadata type="name">RobustnessPlate4</metadata>
+		<mesh>
+			<vertices>
+				<vertex><coordinates><x>4.78106669</x><y>2.18445794</y><z>0.75</z></coordinates></vertex>
+				<vertex><coordinates><x>4.78106669</x><y>2.18445794</y><z>2.15</z></coordinates></vertex>
+				<vertex><coordinates><x>3.85349191</x><y>2.55809551</y><z>2.15</z></coordinates></vertex>
+				<vertex><coordinates><x>3.85349191</x><y>2.55809551</y><z>0.75</z></coordinates></vertex>
+			</vertices>
+			<volume materialid="4">
+				<triangle><v1>0</v1><v2>1</v2><v3>2</v3></triangle>
+				<triangle><v1>0</v1><v2>2</v2><v3>3</v3></triangle>
+			</volume>
+		</mesh>
+	</object>
+	<object id="14">
+		<metadata type="name">RobustnessPlate5</metadata>
+		<mesh>
+			<vertices>
+				<vertex><coordinates><x>2.63830601</x><y>1.53764134</y><z>0.75</z></coordinates></vertex>
+				<vertex><coordinates><x>2.63830601</x><y>1.53764134</y><z>2.15</z></coordinates></vertex>
+				<vertex><coordinates><x>3.63091509</x><y>1.65899701</y><z>2.15</z></coordinates></vertex>
+				<vertex><coordinates><x>3.63091509</x><y>1.65899701</y><z>0.75</z></coordinates></vertex>
+			</vertices>
+			<volume materialid="4">
+				<triangle><v1>0</v1><v2>1</v2><v3>2</v3></triangle>
+				<triangle><v1>0</v1><v2>2</v2><v3>3</v3></triangle>
+			</volume>
+		</mesh>
+	</object>
+	<material id="1"><metadata type="name">Walls</metadata></material>
+	<material id="2"><metadata type="name">Ceiling</metadata></material>
+	<material id="3"><metadata type="name">Floor</metadata></material>
+	<material id="4"><metadata type="name">MetalObstacle</metadata></material>
+</amf>

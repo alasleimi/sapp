@@ -1,0 +1,5 @@
+Table~\ref{tab:raw} tests whether fitted paths improve localization when the receiver model and peak detector are bypassed. SAPP without sources is the residual-only control from Fig.~\ref{fig:ablations}.
+
+SAPP obtains 1.203~m mean error, compared with 1.355~m for MPUrge-MAP, 1.404~m for Chamfer weighted kNN and 1.265~m for SAPP without fitted sources. The paired reduction over the source-free control is 0.062~m, with a 95\% interval of [0.020, 0.105]~m. Chamfer has the lowest 90th-percentile error in this experiment.
+
+Selecting the strongest simulator paths and the strongest receiver peaks can give different sets of propagation paths. Receiver processing merges nearby arrivals, and coherent interference changes which peaks are strongest. The mean retained counts are 8.68 exact paths and 8.13 detected peaks. SAPP's mean error is higher with exact delays, while its advantage over the matched source-free control remains. Supplementary Sec.~S5 reports results by room.

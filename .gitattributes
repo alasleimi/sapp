@@ -1,0 +1,10 @@
+* text=auto eol=lf
+data/** -text
+reference/** -text
+*.py text eol=lf
+*.toml text eol=lf
+*.npz binary
+*.pt binary
+*.pdf binary
+*.png binary
+*.gz binary

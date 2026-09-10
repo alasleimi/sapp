@@ -1,0 +1,7 @@
+{
+  "nist_generator_commit": "1ccf0cb61c1741cc3471db8ec0373c5383da58be",
+  "native_rng_initialization": {
+    "MATLAB": "rng('default') at each scenario",
+    "Octave": "Fresh runtime; runner supplies no explicit seed"
+  }
+}

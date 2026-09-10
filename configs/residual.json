@@ -1,0 +1,16 @@
+{
+  "selected": {
+    "residual": {
+      "method": "residual",
+      "h": 1.0,
+      "sigma": 0.32,
+      "temp": 0.5,
+      "mean_m": 1.3395626433733634
+    },
+    "swap": {
+      "method": "swap",
+      "radius": 1.0,
+      "mean_m": 1.1048729967521813
+    }
+  }
+}

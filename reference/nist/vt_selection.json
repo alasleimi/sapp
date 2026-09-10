@@ -1,0 +1,426 @@
+{
+  "selected": {
+    "cluster_gap": 0.6,
+    "group_threshold": 0.5,
+    "tolerance": 1.0,
+    "mean_error_m": 1.408842114989867
+  },
+  "best_detector_compatible": {
+    "cluster_gap": 0.6,
+    "group_threshold": 0.5,
+    "tolerance": 1.0,
+    "mean_error_m": 1.408842114989867
+  },
+  "trials": [
+    {
+      "cluster_gap": 0.1,
+      "group_threshold": 0.25,
+      "tolerance": 0.25,
+      "mean_error_m": 1.7419647403363807
+    },
+    {
+      "cluster_gap": 0.1,
+      "group_threshold": 0.25,
+      "tolerance": 0.5,
+      "mean_error_m": 1.6548273711118333
+    },
+    {
+      "cluster_gap": 0.1,
+      "group_threshold": 0.25,
+      "tolerance": 1.0,
+      "mean_error_m": 1.6101988275890733
+    },
+    {
+      "cluster_gap": 0.1,
+      "group_threshold": 0.5,
+      "tolerance": 0.25,
+      "mean_error_m": 1.6663324173452843
+    },
+    {
+      "cluster_gap": 0.1,
+      "group_threshold": 0.5,
+      "tolerance": 0.5,
+      "mean_error_m": 1.5460361611288307
+    },
+    {
+      "cluster_gap": 0.1,
+      "group_threshold": 0.5,
+      "tolerance": 1.0,
+      "mean_error_m": 1.5344867984447268
+    },
+    {
+      "cluster_gap": 0.1,
+      "group_threshold": 1.0,
+      "tolerance": 0.25,
+      "mean_error_m": 1.5988749498787453
+    },
+    {
+      "cluster_gap": 0.1,
+      "group_threshold": 1.0,
+      "tolerance": 0.5,
+      "mean_error_m": 1.4933633476803339
+    },
+    {
+      "cluster_gap": 0.1,
+      "group_threshold": 1.0,
+      "tolerance": 1.0,
+      "mean_error_m": 1.43523289929458
+    },
+    {
+      "cluster_gap": 0.2,
+      "group_threshold": 0.25,
+      "tolerance": 0.25,
+      "mean_error_m": 1.7736585716568378
+    },
+    {
+      "cluster_gap": 0.2,
+      "group_threshold": 0.25,
+      "tolerance": 0.5,
+      "mean_error_m": 1.6528630763326566
+    },
+    {
+      "cluster_gap": 0.2,
+      "group_threshold": 0.25,
+      "tolerance": 1.0,
+      "mean_error_m": 1.6085452887849847
+    },
+    {
+      "cluster_gap": 0.2,
+      "group_threshold": 0.5,
+      "tolerance": 0.25,
+      "mean_error_m": 1.6516936906520643
+    },
+    {
+      "cluster_gap": 0.2,
+      "group_threshold": 0.5,
+      "tolerance": 0.5,
+      "mean_error_m": 1.5381213409476095
+    },
+    {
+      "cluster_gap": 0.2,
+      "group_threshold": 0.5,
+      "tolerance": 1.0,
+      "mean_error_m": 1.5107112348979161
+    },
+    {
+      "cluster_gap": 0.2,
+      "group_threshold": 1.0,
+      "tolerance": 0.25,
+      "mean_error_m": 1.5969874372779709
+    },
+    {
+      "cluster_gap": 0.2,
+      "group_threshold": 1.0,
+      "tolerance": 0.5,
+      "mean_error_m": 1.4728001628536727
+    },
+    {
+      "cluster_gap": 0.2,
+      "group_threshold": 1.0,
+      "tolerance": 1.0,
+      "mean_error_m": 1.4448044020793522
+    },
+    {
+      "cluster_gap": 0.3,
+      "group_threshold": 0.25,
+      "tolerance": 0.25,
+      "mean_error_m": 1.783623593152261
+    },
+    {
+      "cluster_gap": 0.3,
+      "group_threshold": 0.25,
+      "tolerance": 0.5,
+      "mean_error_m": 1.6431377548344122
+    },
+    {
+      "cluster_gap": 0.3,
+      "group_threshold": 0.25,
+      "tolerance": 1.0,
+      "mean_error_m": 1.6332297102097506
+    },
+    {
+      "cluster_gap": 0.3,
+      "group_threshold": 0.5,
+      "tolerance": 0.25,
+      "mean_error_m": 1.7257216484441398
+    },
+    {
+      "cluster_gap": 0.3,
+      "group_threshold": 0.5,
+      "tolerance": 0.5,
+      "mean_error_m": 1.5764054581733675
+    },
+    {
+      "cluster_gap": 0.3,
+      "group_threshold": 0.5,
+      "tolerance": 1.0,
+      "mean_error_m": 1.5578299175023118
+    },
+    {
+      "cluster_gap": 0.3,
+      "group_threshold": 1.0,
+      "tolerance": 0.25,
+      "mean_error_m": 1.627093413911795
+    },
+    {
+      "cluster_gap": 0.3,
+      "group_threshold": 1.0,
+      "tolerance": 0.5,
+      "mean_error_m": 1.484561397848283
+    },
+    {
+      "cluster_gap": 0.3,
+      "group_threshold": 1.0,
+      "tolerance": 1.0,
+      "mean_error_m": 1.4683710104055279
+    },
+    {
+      "cluster_gap": 0.45,
+      "group_threshold": 0.25,
+      "tolerance": 0.25,
+      "mean_error_m": 1.6720514162238747
+    },
+    {
+      "cluster_gap": 0.45,
+      "group_threshold": 0.25,
+      "tolerance": 0.5,
+      "mean_error_m": 1.6241420931215185
+    },
+    {
+      "cluster_gap": 0.45,
+      "group_threshold": 0.25,
+      "tolerance": 1.0,
+      "mean_error_m": 1.6036833243778628
+    },
+    {
+      "cluster_gap": 0.45,
+      "group_threshold": 0.5,
+      "tolerance": 0.25,
+      "mean_error_m": 1.6758461891533516
+    },
+    {
+      "cluster_gap": 0.45,
+      "group_threshold": 0.5,
+      "tolerance": 0.5,
+      "mean_error_m": 1.594030761440277
+    },
+    {
+      "cluster_gap": 0.45,
+      "group_threshold": 0.5,
+      "tolerance": 1.0,
+      "mean_error_m": 1.5731799100652422
+    },
+    {
+      "cluster_gap": 0.45,
+      "group_threshold": 1.0,
+      "tolerance": 0.25,
+      "mean_error_m": 1.6138229794526209
+    },
+    {
+      "cluster_gap": 0.45,
+      "group_threshold": 1.0,
+      "tolerance": 0.5,
+      "mean_error_m": 1.5253047838634421
+    },
+    {
+      "cluster_gap": 0.45,
+      "group_threshold": 1.0,
+      "tolerance": 1.0,
+      "mean_error_m": 1.469177551855476
+    },
+    {
+      "cluster_gap": 0.6,
+      "group_threshold": 0.25,
+      "tolerance": 0.25,
+      "mean_error_m": 1.5686508872232239
+    },
+    {
+      "cluster_gap": 0.6,
+      "group_threshold": 0.25,
+      "tolerance": 0.5,
+      "mean_error_m": 1.5226743724032215
+    },
+    {
+      "cluster_gap": 0.6,
+      "group_threshold": 0.25,
+      "tolerance": 1.0,
+      "mean_error_m": 1.5081541023944691
+    },
+    {
+      "cluster_gap": 0.6,
+      "group_threshold": 0.5,
+      "tolerance": 0.25,
+      "mean_error_m": 1.5050792188422963
+    },
+    {
+      "cluster_gap": 0.6,
+      "group_threshold": 0.5,
+      "tolerance": 0.5,
+      "mean_error_m": 1.4342895940277647
+    },
+    {
+      "cluster_gap": 0.6,
+      "group_threshold": 0.5,
+      "tolerance": 1.0,
+      "mean_error_m": 1.408842114989867
+    },
+    {
+      "cluster_gap": 0.6,
+      "group_threshold": 1.0,
+      "tolerance": 0.25,
+      "mean_error_m": 1.6153569284005111
+    },
+    {
+      "cluster_gap": 0.6,
+      "group_threshold": 1.0,
+      "tolerance": 0.5,
+      "mean_error_m": 1.511837175566875
+    },
+    {
+      "cluster_gap": 0.6,
+      "group_threshold": 1.0,
+      "tolerance": 1.0,
+      "mean_error_m": 1.504521805750867
+    },
+    {
+      "cluster_gap": 0.9,
+      "group_threshold": 0.25,
+      "tolerance": 0.25,
+      "mean_error_m": 1.6868075234786903
+    },
+    {
+      "cluster_gap": 0.9,
+      "group_threshold": 0.25,
+      "tolerance": 0.5,
+      "mean_error_m": 1.650612648487904
+    },
+    {
+      "cluster_gap": 0.9,
+      "group_threshold": 0.25,
+      "tolerance": 1.0,
+      "mean_error_m": 1.6496565512207237
+    },
+    {
+      "cluster_gap": 0.9,
+      "group_threshold": 0.5,
+      "tolerance": 0.25,
+      "mean_error_m": 1.6800998302465247
+    },
+    {
+      "cluster_gap": 0.9,
+      "group_threshold": 0.5,
+      "tolerance": 0.5,
+      "mean_error_m": 1.6449741020859239
+    },
+    {
+      "cluster_gap": 0.9,
+      "group_threshold": 0.5,
+      "tolerance": 1.0,
+      "mean_error_m": 1.6528531860149835
+    },
+    {
+      "cluster_gap": 0.9,
+      "group_threshold": 1.0,
+      "tolerance": 0.25,
+      "mean_error_m": 1.7631104950543017
+    },
+    {
+      "cluster_gap": 0.9,
+      "group_threshold": 1.0,
+      "tolerance": 0.5,
+      "mean_error_m": 1.6826512227649633
+    },
+    {
+      "cluster_gap": 0.9,
+      "group_threshold": 1.0,
+      "tolerance": 1.0,
+      "mean_error_m": 1.637820800152281
+    },
+    {
+      "cluster_gap": 1.2,
+      "group_threshold": 0.25,
+      "tolerance": 0.25,
+      "mean_error_m": 1.6842840245730089
+    },
+    {
+      "cluster_gap": 1.2,
+      "group_threshold": 0.25,
+      "tolerance": 0.5,
+      "mean_error_m": 1.6463489621253244
+    },
+    {
+      "cluster_gap": 1.2,
+      "group_threshold": 0.25,
+      "tolerance": 1.0,
+      "mean_error_m": 1.6519351856085354
+    },
+    {
+      "cluster_gap": 1.2,
+      "group_threshold": 0.5,
+      "tolerance": 0.25,
+      "mean_error_m": 1.6886237900618961
+    },
+    {
+      "cluster_gap": 1.2,
+      "group_threshold": 0.5,
+      "tolerance": 0.5,
+      "mean_error_m": 1.619811908662721
+    },
+    {
+      "cluster_gap": 1.2,
+      "group_threshold": 0.5,
+      "tolerance": 1.0,
+      "mean_error_m": 1.6141588262662243
+    },
+    {
+      "cluster_gap": 1.2,
+      "group_threshold": 1.0,
+      "tolerance": 0.25,
+      "mean_error_m": 1.7669102678832243
+    },
+    {
+      "cluster_gap": 1.2,
+      "group_threshold": 1.0,
+      "tolerance": 0.5,
+      "mean_error_m": 1.700371023239848
+    },
+    {
+      "cluster_gap": 1.2,
+      "group_threshold": 1.0,
+      "tolerance": 1.0,
+      "mean_error_m": 1.6821925312035164
+    }
+  ],
+  "query_cases": 1200,
+  "development_rooms": 2,
+  "candidate_grid": {
+    "cluster_gap": [
+      0.1,
+      0.2,
+      0.3,
+      0.45,
+      0.6,
+      0.9,
+      1.2
+    ],
+    "group_threshold": [
+      0.25,
+      0.5,
+      1.0
+    ],
+    "tolerance": [
+      0.25,
+      0.5,
+      1.0
+    ]
+  },
+  "fixed": {
+    "alpha": 0.5,
+    "neighbor_radius_m": 1.0,
+    "grid_step_m": 0.1,
+    "peak_cap": 9
+  },
+  "development_design_sha256": "5f2410d7736fd84cbc6df03ad44acb82ee1e924a32442db3087bfd5c2207f0bc",
+  "implementation_sha256": "f3a1454653a97841e543ec603d0ab9a538ba04745291cd6056a34c62815e575a",
+  "calibration_source_sha256": "066b6979a652e2becaf8b9b897a4f82f917cbae6b6cb3d2ec508a29085bd5f6f"
+}

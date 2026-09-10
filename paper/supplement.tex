@@ -1,0 +1,263 @@
+\documentclass[10pt]{article}
+\usepackage[letterpaper,margin=0.8in]{geometry}
+\usepackage{amsmath,amssymb,bm,booktabs,array,graphicx,microtype}
+\usepackage{placeins,float}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdfauthor={},pdftitle={Supplement: Survey-Inferred Anchor Point Processes for Delay-Only Multipath Localization}}
+\graphicspath{{figures/}}
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\theequation}{S\arabic{equation}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\parindent}{1em}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\newcommand{\Y}{\mathcal Y}
+\begin{document}
+\begin{center}
+{\Large\bfseries Survey-Inferred Anchor Point Processes for\\Delay-Only Multipath Localization}\par\medskip
+{\large Supplementary Material}\par\smallskip
+Anonymous Authors
+\end{center}
+
+\section{Fitting and decoding}
+This section specifies the fitting and decoding procedure for the main paper's range family and query likelihood.
+
+\subsection{Consensus discovery}
+Each trial samples three distinct nonempty survey coordinates and one peak per coordinate, uniformly. The 30,000-trial budget includes rejections. Main-paper Eq.~(2) is rejected below absolute determinant 0.04~m$^2$. Values of $q^2$ in $[-0.02,0]$~m$^2$ are clipped to zero; more negative values are rejected. Further rejection bounds are $q>15$~m and a horizontal source outside the survey extent expanded by five axis spans on each side, with spans floored at 1~m.
+
+For a hypothesis, let $e_i$ be the smallest absolute range residual at coordinate $i$. With $\tau=0.18$~m, its score is
+\begin{equation}
+\sum_i\mathbf1[e_i\leq\tau]
++0.35\sum_i\exp[-e_i^2/(2\tau^2)]
+-\frac{0.10}{\tau}\operatorname{median}_i\min(e_i,4\tau).
+\end{equation}
+The best 12 valid hypotheses from each batch of 400 enter a common pool. At each greedy extraction, hypotheses are rescored against the remaining peaks. The largest score wins, with support breaking ties. Extraction stops below $\max(5,\lceil0.08N\rceil)$ inliers.
+
+For refinement, let $t_i$ be the nearest remaining peak under the winning candidate $\theta_0=(\bm u_0,q_0)$, $e_i^0=r_{\theta_0}(\bm x_i)-t_i$, and $I=\{i:|e_i^0|\leq2\tau\}$. With fixed targets, indices, and weights $w_i=\exp[-(e_i^0)^2/(8\tau^2)]$, the fit minimizes
+\begin{equation}
+\sum_{i\in I}\rho_\tau\!\left(\sqrt{w_i}[r_\theta(\bm x_i)-t_i]\right),
+\qquad \rho_\tau(v)=\tau^2\left(\sqrt{1+(v/\tau)^2}-1\right).
+\end{equation}
+The bounds are $0\leq q\leq15$~m and the survey's horizontal coordinate bounds expanded by four axis spans plus 5~m on each side. Fewer than five selected references retain the initial candidate; otherwise the fit uses at most 120 function evaluations.
+
+After refinement, support is checked again. A candidate whose predicted survey ranges differ from a retained surface by less than 0.12~m RMS is rejected. For an accepted source, its nearest peak within $\tau$ is removed at every supporting coordinate; hypotheses within the same RMS separation are removed from the pool. The procedure performs at most 20 passes over this pool.
+
+\subsection{Association, residual mass, and search}
+Association starts with global source counts $\bar\nu_j^{(0)}=0.35$ and uniform count $\kappa^{(0)}=1$. At iteration $t\in\{1,2,3,4\}$, main-paper Eq.~(3) uses $\bar\nu^{(t-1)}$ and $\kappa^{(t-1)}$ to obtain $z_{imj}^{(t)}$ and $c_{ij}^{(t)}=\sum_mz_{imj}^{(t)}$. The updates are
+\begin{align}
+\bar\nu_j^{(t)}&=\operatorname{clip}_{[0.015,1.8]}
+\frac{\sum_i c_{ij}^{(t)}+0.25}{N+0.5},\\
+\kappa^{(t)}&=\operatorname{clip}_{[0.05,6]}
+\frac{\sum_{i,m}(1-\sum_jz_{imj}^{(t)})+0.5}{N+0.5}.
+\end{align}
+The source field retains $c^{(4)}$ and the global pseudocount uses $\bar\nu^{(4)}$. A further responsibility evaluation with $\bar\nu^{(4)}$ and $\kappa^{(4)}$ gives $z^{(5)}$ and residual weights $w_{im}=1-\sum_jz_{imj}^{(5)}$; this evaluation leaves the source-count field unchanged. Student-$t_3$ kernels are normalized on $[0,R]$. The matched comparisons use scale 0.16~m and $R=25$~m for simulations, and scale 0.32~m and $R=c(200~\mathrm{ns})=59.9584916$~m for UWB. The residual integral replaces each normalized density by one. Their compact-survey spatial fields use $h=d_{\rm NN}/\sqrt2$ and global pseudoweight 0.5. Sections~S3 and S5 specify independent scale selection. Fitted sources remain fixed during query scoring.
+
+The 0.10~m grid starts at the lower padded survey bound along each axis. Both coarse and refined candidates require distance at most $\max(0.82d_{\rm NN},2\Delta)$ from a reference, with coarse step $\Delta$ and full-survey $d_{\rm NN}=0.5$~m. Weiszfeld iteration starts at the posterior mean, stopping after 40 iterations or displacement below $10^{-7}$~m. Posterior weights use log-score shifting, exponent floor $-80$, and retention threshold $10^{-10}$. Solutions outside support project to the nearest coarse candidate; none of the 5,400 primary median estimates required projection. Empty queries return the survey centroid; none occur in the primary or 24-peak evaluations.
+
+\section{Simulation and receiver specification}
+\subsection{Geometry and channel generation}
+Room polygons below are ordered horizontal vertices in metres. Ceiling and receiver heights are listed in the main paper. AP coordinates are $(x,y,z)$ in metres; each AP is evaluated separately.
+\begin{center}
+\begin{tabular}{lp{10.8cm}}
+\toprule
+Room & Polygon vertices\\\midrule
+L & $(0,0),(6.5,0),(6.5,4),(5,4),(5,7),(0,7)$\\
+T & $(0,0),(7,0),(7,3),(5,3),(5,6.5),(2,6.5),(2,3),(0,3)$\\
+Oblique & $(0,0.4),(6.5,0),(7.3,3.9),(5.4,7),(1.2,6.6),(-0.5,3)$\\\bottomrule
+\end{tabular}
+\end{center}
+\begin{center}
+\begin{tabular}{lccrr}
+\toprule
+Room & AP-A & AP-B & Ceiling & Receiver\\\midrule
+L & $(1.25,1.85,2.55)$ & $(4.15,5.75,2.70)$ & 3.2 & 1.15\\
+T & $(1.15,1.25,2.45)$ & $(3.55,5.55,2.80)$ & 3.4 & 0.95\\
+Oblique & $(1.10,1.45,2.35)$ & $(5.55,5.25,2.65)$ & 3.0 & 1.45\\\bottomrule
+\end{tabular}
+\end{center}
+Surveys use a 0.5~m grid offset by 0.25~m from the lower half-metre bounding coordinates, retaining points at least 0.12~m inside the polygon. Query points are rejection-sampled uniformly in the bounding rectangle, requiring 0.05~m boundary clearance and more than 0.035~m distance from every reference. Each room uses 100 query coordinates shared across its layouts and APs.
+
+Each plate is a vertical 1~m segment extending from 0.75 to 2.15~m. Its center is uniform over the bounding rectangle and its orientation uniform on $[0,\pi)$. Rejection enforces 0.55~m clearance from the room boundary, 0.50~m from either AP, and 0.25~m between plates. Layouts have one, three, or five plates, with three independently generated layouts per count. Exact reference, query, and plate coordinates are supplied in \path{data/nist/design.json}.
+
+The NIST quasi-deterministic generator uses 60~GHz, second-order specular reflection, indoor mode, complex phase output, and JSON channels. L and T use the TGay material parameters with diffuse generation disabled. The oblique room uses the measurement-based diffuse model at a $-25$~dB threshold: lecture-room RightWall, Ceiling, and Floor material entries and the data-center Racktop entry for plates. The archive includes the generator revision identifier, scenario inputs, material tables, and stochastic configuration. These specify the simulated environment independently of the estimator.
+
+\subsection{Receiver equations}
+At array position $\bm p_e\in\{0,\lambda_c/2\}^3$, the clean complex delay response is
+\begin{equation}
+h_e[n]=\sum_l 10^{g_l/20}e^{\mathrm i\phi_l}
+e^{-2\pi\mathrm i\bm p_e^\top\bm d_l/\lambda_c}
+\operatorname{sinc}\!\left(\frac{n\Delta_r-c\tau_l}{\Delta_r}\right),
+\qquad \Delta_r=c/B.
+\end{equation}
+The eight-element cube remains aligned to the room coordinates. NIST arrival azimuth $a_l$ and polar elevation $b_l$ give $\bm d_l=(\sin b_l\cos a_l,\sin b_l\sin a_l,\cos b_l)$. Only finite path ranges in $[0,25]$~m enter the response. Delay samples run from zero through the nearest grid endpoint to 25~m.
+
+Independent circular complex noise $\eta_e[n]$ has variance $v=\max_n\frac18\sum_e|h_e[n]|^2/10^{\mathrm{SNR}/10}$. The receiver uses $P[n]=\frac18\sum_e|h_e[n]+\eta_e[n]|^2$. Its conservative noise-floor estimate is $F=\max(\operatorname{median}_n P[n]/\log2,v)$. A local maximum must exceed $\max(F10^{8/10},\max_nP[n]10^{-45/10})$. Interior maxima are strictly larger than their left neighbor and at least as large as their right neighbor; endpoints use the available neighbor. Up to 24 peaks are retained by decreasing power before applying the experiment's cap.
+
+For an interior peak, the range offset in bins is
+\begin{equation}
+\delta=\operatorname{clip}_{[-0.5,0.5]}
+\frac{\log P[n-1]-\log P[n+1]}{2(\log P[n-1]-2\log P[n]+\log P[n+1])}.
+\end{equation}
+A nonnegative or near-zero curvature uses zero offset. Refined ranges outside $(0,25]$~m are removed. CNN inputs preserve power order; set-based estimators sort the retained ranges. Receiver seeds and generated observations are supplied as machine-readable data.
+
+\section{Comparator specification and validation}
+\subsection{Development settings}
+The rectangular development scenes measure $4\times5\times3$~m and $6\times7\times3.2$~m, with 80 and 168 references per AP, respectively, two APs per room, 100 query coordinates, and ten object layouts. The localization objective is mean Euclidean error across AP and layout conditions. MPUrge-MAP searches $p\in\{2,4,6,8,12\}$, $\alpha\in\{0.3,0.5,0.7,0.9\}$, normalized or unnormalized local patterns, and $k\in\{1,3,5,7\}$ neighbors in the smaller room. The selected setting uses normalized patterns, $p=2$, $\alpha=0.7$, and $k=3$.
+
+For query $\Y$ and reference $\Y_i$, let $\mathcal M_i$ be the retained bijective matches and $\bar\delta_i$ their mean normalized composite dissimilarity. We implement the coverage penalty described for MPUrge-MAP as
+\begin{equation}
+c_i=\frac{|\mathcal M_i|}{\max(|\Y|,|\Y_i|)},\qquad
+D_i=\frac{\bar\delta_i}{c_i}.
+\end{equation}
+The denominator uses the original fingerprint lengths before size unification. A reference with no matches receives infinite score and is excluded. The three smallest finite scores determine the interpolated coordinates, with weights proportional to $1/\max(D_i,\epsilon_{\rm mach})$, where $\epsilon_{\rm mach}$ is double-precision machine epsilon. This gives equal limiting weights to zero-score matches. Fewer than three finite scores use all available references; no finite score returns the survey centroid.
+
+SAPP development examined source limits of 12--20, support fractions 0.08 and 0.12, spatial scales from 0.35 to 0.85~m and the spacing-adaptive rule, survival means of 0.6 and 0.75, and innovation means of two, four, and six peaks. The main paper's settings apply to every evaluation room. The archive records the numerical configuration; the additional discovery fits in Sec.~S4 measure sensitivity to randomized hypothesis generation.
+
+\paragraph{Chamfer comparison on NIST.}
+The symmetric nearest-delay distance in Sec.~S5.3 is also used for the simulated receiver peaks and exact simulator delays. For each input type, four interleaved spatial survey folds select a common neighbor count from $\{1,3,5,9\}$ and an inverse-distance exponent from $\{1,2\}$ by pooled validation error over the six room/AP maps. The selected settings are three neighbors and exponent one for receiver peaks, and nine neighbors and exponent one for exact delays. Final localization uses all survey positions and all 5,400 queries. With exact delays, the paired Chamfer-minus-SAPP mean difference is 0.202~m, with a 95\% crossed-bootstrap interval of [0.150, 0.255]~m.
+
+\subsection{CNN encoding and stopping duration}
+Each input concatenates nine power-ordered ranges, 20 reference triples $(x,y,z)$, and the AP triple, then reshapes the 72 values in row-major order to $1\times6\times12$. Ranges use the minimum and maximum of the room's two surveys; missing entries become zero after normalization. Horizontal context coordinates use survey minima and spans, while vertical coordinates use zero origin and the larger AP height as scale. Context references are chosen by farthest-point sampling, starting nearest the survey centroid. The coordinate output is in metres.
+
+The layer sequence is valid $2\times1$ convolution with 32 channels, ReLU, valid $2\times1$ convolution with 64 channels, ReLU, $2\times2$ max pooling, valid $2\times1$ convolution with 128 channels, ReLU, flattening to 768 units, a 20-unit ReLU dense layer, and a two-coordinate linear output. Glorot-uniform weights and zero biases initialize every trainable layer. Training uses Adam with learning rate $10^{-3}$, batches of ten and root-mean-square Euclidean position error as the loss. The main paper describes the survey augmentations.
+
+For duration selection, a random 20\% of survey coordinates is held out in each room, with both APs and all augmentations grouped by coordinate. One initialization per room is trained for 300 epochs. Validation mean Euclidean error is averaged over the final ten epochs of each candidate duration in $\{100,150,200,250,300\}$ and then equally across rooms. The minimum selects 250 epochs. Three independent final models per room are fitted on all survey coordinates for this duration. Each model supplies its own predictions and error metrics.
+\begin{figure}[t]
+\centering\includegraphics[width=0.96\textwidth]{cnn_validation.pdf}
+\caption{Survey-coordinate validation of CNN training duration. Curves are ten-epoch moving averages of mean Euclidean error on the held-out augmented survey fingerprints. The selected duration minimizes the average over rooms at the candidate endpoints.}
+\label{fig:cnnvalidation}
+\end{figure}
+\input{generated/supp_cnn.tex}
+\input{generated/supp_cnn_budget_prose.tex}
+\input{generated/supp_cnn_budget.tex}
+
+\subsection{VT interpolation}
+The VT reconstruction uses the published 1~m neighborhood radius and weight $\alpha=0.5$. We evaluate both the published interpolation settings and a development-calibrated variant. Cluster pairs are processed in increasing matching cost, allowing at most one cluster per reference in a group. Smaller clusters receive distinct minimum-cost slots in the mean full-sized cluster. Coplanar nonlinear trilateration fits two horizontal source coordinates and a nonnegative vertical offset. Tracks with fewer than three noncollinear references use their mean range. Measured fingerprints precede synthesized fingerprints in MCA tie breaking.
+
+The receiver's peak detector and bounded refinement imply a minimum separation of $c/B=0.15$~m, so the published 0.10~m clustering gap produces singleton clusters. Calibration considers gaps $\{0.10,0.20,0.30,0.45,0.60,0.90,1.20\}$~m, grouping thresholds $\{0.25,0.50,1.00\}$, and MCA tolerances $\{0.25,0.50,1.00\}$~m. Mean localization error over 1,200 development cases selects one shared combination. These cases use both rectangular rooms, two APs per room, all 100 query coordinates, and one layout from each of the one-, three-, and five-object strata. The receiver and nine-peak cap match the primary evaluation. Table~\ref{tab:vtselection} summarizes sensitivity to the clustering gap.
+\input{generated/supp_vt_selection.tex}
+
+A noiseless check exercises clustering, grouping, trilateration, synthesis, and MCA on three separated source tracks over a 0.5~m survey. Four unsurveyed grid-aligned queries recover their ranges and positions to numerical precision. A second check holds out alternating survey-grid coordinates in each evaluation room, preserving local neighbors within the 1~m radius. The published and calibrated settings use identical training and withheld coordinates.
+
+\input{generated/supp_vt_prose.tex}
+Published VT settings give 1.851~m pooled mean error; using the shared 0.5~m MCA tolerance gives 1.895~m. These controls use the same survey and all 5,400 queries.
+\input{generated/supp_vt.tex}
+\FloatBarrier
+
+\subsection{Independent residual tuning and source-fitting comparison}
+The optimized residual map uses every observed survey peak with unit residual responsibility and contains zero fitted sources. Its spatial bandwidth, Student scale and posterior temperature are selected jointly by mean localization error on four spatially interleaved survey folds. The even or odd indices along the two axes of the half-metre survey grid define four groups; each group is held out in turn. Selection pools the held-out errors across the six AP surveys. The initial search uses $h/(d_{\rm NN}/\sqrt2)\in\{0.5,1,2,4\}$, $\sigma\in\{0.08,0.16,0.32,0.64\}$~m and $T\in\{1,2,4\}$. A single local refinement tests the adjacent factor-of-two value when the validation minimum lies at a search boundary; here it adds $T=0.5$ at the selected spatial and delay scales. Each candidate uses the fitting references to define its spatial kernels and position support. Final prediction uses all survey references. The matched residual ablation retains the original SAPP scales.
+
+An alternative source estimator uses VT cluster matching and nonlinear trilateration to propose range surfaces. It uses the calibrated 0.6~m cluster gap, grouping threshold 0.5 and neighborhoods centered on survey references. The same four folds select the neighborhood radius from $\{1,2,3\}$~m. Only tracks spanning three noncollinear references supply source candidates. Candidates are ranked by survey-wide support within 0.18~m, with smooth residual agreement breaking ties. Greedy selection removes each accepted surface's supporting peaks, requires at least $\max(5,\lceil0.08N\rceil)$ supporting references, suppresses surfaces within 0.12~m RMS and retains at most 20 sources. The resulting bank replaces SAPP's consensus-discovered sources. The source-count fields and residual weights are then fitted by the original procedure, with the original bandwidth, 0.16~m Student scale and $T=1$ geometric-median decoder. This comparison changes the source estimator while keeping the subsequent intensity model and decoder fixed.
+
+\input{generated/supp_optimized.tex}
+
+\subsection{Recent power-profile networks}
+P-NN, L-SwiGLU and the PDP Transformer follow the architectures of Oh et al. (2024), Masrur et al. (2025 preprint) and Cao et al. (2026), respectively, cited in the main paper. All outputs are two-dimensional coordinates. NIST inputs contain 168 power bins per AP at the receiver's 0.15~m spacing; UWB inputs contain six 200-bin profiles at 1~ns spacing. They use the same receiver realizations and survey coordinates as the delay-based methods. UWB supplies six tokens per query and evaluates the Transformers' cross-anchor attention. The supplementary NIST fits use one token per query.
+
+\emph{P-NN.} The strongest $F$ power bins and their numerical bin positions form separate feature matrices and a sparse power image. The image branch uses 32-channel $9\times9$ convolution, nonlocal attention and 32-channel $4\times4$ convolution. Two $3\times3$ convolutions with 16 channels process each feature matrix. Concatenated features feed a 50/50/2 coordinate head. Same padding preserves spatial dimensions. Training-only means and standard deviations scale the selected powers and bin indices. Spatial validation selects $F$ from $\{9,24\}$.
+
+\emph{L-SwiGLU.} Each sensor's full PDP forms one token. Power compression uses $r=5$, $S=10$ and square-root output, following the source preprocessing. The encoder uses pre-RMSNorm, six attention heads and SwiGLU feed-forward layers, followed by mean pooling, RMSNorm and a $D$/ReLU/2 head. Small and medium candidates use $(\mathrm{layers},D,\mathrm{hidden})=(6,48,54)$ and $(10,72,94)$. The source architecture omits sensor-position embeddings and the class token. Validation considers signal dropping, Gaussian timing shifts and spatially smoothed mixup, as well as unaugmented training. Both datasets select the medium network with unaugmented training.
+
+\emph{PDP Transformer.} The predictor uses a shared PDP embedding, learned AP-index embeddings, one post-LayerNorm encoder block, mean pooling and a 256/ReLU/2 head. The reported settings $D=d_k=D'=256$ and eight attention heads determine its dimensions. The comparison evaluates the predictor component with fixed-bandwidth receiver power profiles. Training-only scaling is selected between per-bin standardization and a common RMS power scale.
+
+\emph{Selection and optimization.} NIST holds out one quarter of each survey grid and selects configurations by pooled error across its six maps. UWB uses the two training holdouts in Sec.~S5.3. Each fold fits its own input normalization and centers coordinates at its training mean with scale equal to half the largest coordinate span. P-NN and the PDP Transformer compare Adam learning rates $10^{-3}$ and $3\times10^{-4}$ and use coordinate MSE. L-SwiGLU uses coordinate $\ell_1$ loss, Adam weight decay $10^{-3}$, and a cosine learning-rate schedule with peak $0.002$. Validation evaluates every ten epochs, with 200-epoch patience and limits of 1,000 epochs for P-NN and the PDP Transformer and 2,000 for L-SwiGLU. Final durations come from the selected validation fits; the two UWB durations are averaged before refitting. Final models train on the full survey with three independent initializations. Reported metrics average the three separate evaluations.
+
+NIST selects $F=24$ and learning rate $3\times10^{-4}$ for P-NN, and per-bin scaling with learning rate $10^{-3}$ for the PDP Transformer. UWB selects $F=9$ and learning rate $10^{-3}$ for P-NN, and common RMS scaling with learning rate $3\times10^{-4}$ for the PDP Transformer. UWB final training lasts 650, 235 and 155 epochs for P-NN, L-SwiGLU and the PDP Transformer, respectively. The archive supplies per-map durations, optimizer schedules and the remaining numerical settings.
+
+Across three fits, the UWB PDP Transformer obtains 0.008--0.014~m mean error on the training survey, and L-SwiGLU obtains 0.529--0.607~m. Their test errors are substantially larger (Table~\ref{tab:recentpaired}, which also reports paired comparisons). NIST intervals use the main experiment's 20,000 stratified crossed-bootstrap draws; UWB uses 4,000 resamples of 100-burst blocks. Errors are averaged across initializations before paired resampling.
+
+\input{generated/supp_recent.tex}
+\begin{figure}[ht]
+\centering\includegraphics[width=\textwidth]{recent_cdf.pdf}
+\caption{SAPP and the recent power-profile networks on the shared survey and test observations. Neural curves pool the three separately evaluated fits.}
+\end{figure}
+\FloatBarrier
+
+\section{Additional results}
+Table~\ref{tab:suppcomponents} gives room-level component controls under both decoders. The inferred sources reduce mean position error with geometric-median decoding in each room. The diffuse room particularly benefits from the residual process. Tables~\ref{tab:ap} and \ref{tab:objects} separate AP and obstruction-count effects. All intervals use the crossed bootstrap defined in the main paper.
+\input{generated/supp_components.tex}
+\input{generated/supp_seeds.tex}
+\input{generated/supp_ap.tex}
+\input{generated/supp_objects.tex}
+\FloatBarrier
+
+Table~\ref{tab:maps} reports stored map size, the number of fitted sources and the expected number of residual peaks.
+\input{generated/supp_maps.tex}
+\input{generated/supp_counts.tex}
+
+Table~\ref{tab:suppsurfaces} reports delay predictions for each area excluded from training. Each map is fitted to the other three survey strips and scored at the excluded coordinates using main-paper Eq.~(9), with $s=0.75$ and $k=2$ for both full and residual-only maps. Gain is their mean log-score difference. Agreement measures the fraction of predicted ranges near an observed peak, weighted by expected source count. Coverage measures the fraction of observed peaks near a predicted range, with equal weight per observed peak.
+\input{generated/supp_surfaces.tex}
+\FloatBarrier
+
+\subsection{Integrated-rate likelihood}
+An additional mode-decoding control integrates independent $s\sim\operatorname{Beta}(a,b)$ and $k\sim\operatorname{Gamma}(\alpha,\beta)$, where $(a,b,\alpha,\beta)=(6,2,2,1)$ and the gamma uses a rate parameter. At a candidate coordinate, write $f_m=f(y_m\mid\bm x)$ and $A=\int f(y\mid\bm x)\,dy$. Let $E_d$ be the elementary symmetric polynomial of degree $d$ in $f_1,\ldots,f_M$. The integrated likelihood is
+\begin{equation}
+L=\sum_{d=0}^{M} E_d R^{-(M-d)}
+\frac{\mathrm B(a+d,b)}{\mathrm B(a,b)}
+{}_1F_1(a+d;a+b+d;-A)
+\frac{\beta^\alpha\Gamma(\alpha+M-d)}{\Gamma(\alpha)(\beta+1)^{\alpha+M-d}}.
+\end{equation}
+Starting from $E_0=1$, $E_d=0$ for $d>0$, each peak updates $E_d\leftarrow E_d+f_mE_{d-1}$ in descending degree order. The implementation performs this recurrence and the final sum in the log domain. Empty sets use the degree-zero term. Fixing $s=0.75$ and $k=2$ gives the main score. The integrated-rate control obtains 1.198~m pooled mean error with mode decoding, compared with 1.200~m for the fixed-rate score, and costs 42.9 versus 31.4~ms per query in the reported implementation.
+
+\section{Exact simulator delays and measured channels}
+\subsection{Exact NIST path delays}
+The experiment with exact simulator delays reuses the main study's three rooms, six AP placements, 27 obstruction layouts and 5,400 query cases. For each simulated channel, finite positive ranges up to 25~m are ranked by path gain. The strongest nine ranges are retained, including repeated values from distinct paths, and passed to the estimators as unordered observations. The path gains select which delays are retained; localization uses the selected delays. Each survey map is fitted again using these ranges, with the same source-discovery, intensity and decoding settings as the receiver experiment. The resulting query sets contain 8.68 ranges on average.
+
+Table~\ref{tab:rawrooms} gives the room-level means.
+\input{generated/supp_raw.tex}
+\FloatBarrier
+
+\subsection{UWB preprocessing and surveyed observations}
+The UWB data are the Fraunhofer IIS fingerprinting dataset described in the main paper's references. We retain records whose measured time of flight lies in $[0,200]$~ns and whose CIR window offset lies in $[0,366]$~ns, then group records by burst and retain one observation from each of the six distinct anchors. The resulting training and test sets contain 18,034 and 3,382 complete bursts. The target coordinate is the mean of the six recorded coordinates within the burst, following the dataset's published channel-charting preprocessing.
+
+With $\Delta t=1$~ns, the measured CIR is shifted by $\operatorname{round}(\mathrm{TD}/\Delta t)$ samples and cropped from $\operatorname{round}(\mathrm{TD\_OFFSET}/\Delta t)$ for 200 samples. This restores the absolute propagation-delay window from the measured time of flight and relative window offset. Writing $P[n]$ for measured power, the noise-floor estimate is $F=\operatorname{median}_nP[n]/\log2$. Local maxima must exceed both $F$ by 8~dB and the largest peak minus 45~dB. A three-sample parabolic fit to power refines each interior maximum, bounded to half a sample. The simulation refinement in (S6) uses log power. Up to nine peaks per anchor are retained by power and converted to ranges using the speed of light. UWB uses $R=59.9584916$~m for every Student-kernel normalization, residual integral and uniform intensity $k/R$. Constants $s=0.75$, $k=2$, the source-discovery limits and the count-clipping bounds are shared with the simulation model.
+
+Farthest-point sampling starts at the training coordinate closest to the training centroid and adds the most distant remaining coordinate until every training point is within 0.5~m of a selected point. This gives 515 shared survey bursts. All methods receive these coordinates and the same six recorded CIRs. Delay-based methods use the extracted peaks; power-profile networks use the representations in Sec.~S3.5. Candidate positions form the same 0.10~m grid and survey-based support for SAPP and the residual control. The supplementary individual-anchor results pool 20,292 errors, comprising six predictions at each of 3,382 test bursts. The main table reports joint localization, with one prediction per test burst.
+
+\subsection{Training selection and test comparison}
+Two spatial holdouts reserve representatives whose zero-based farthest-point selection indices equal 0 or 2 modulo five, respectively. Every training burst is assigned to its nearest representative, and bursts assigned to a reserved representative are excluded from fitting. Each fold fits 412 survey representatives and evaluates 103, giving 206 validation positions across the two folds. Final fitting uses all 515 survey positions, and evaluation uses the separately recorded test trajectory.
+
+SAPP selects the source-discovery tolerance on these holdouts from
+\[
+(\tau,\sigma)\in\{(0.18,0.16),(0.18,0.32),(0.36,0.32),(0.36,0.64),(0.72,0.64)\}\ \mathrm{m},
+\]
+using pooled single-anchor geometric-median error at $T=1$. The selected tolerance is $\tau=0.18$~m. SAPP and the residual map then independently select their spatial bandwidth, Student scale and posterior temperature from $h/(d_{\rm NN}/\sqrt2)\in\{0.5,1,2\}$, $\sigma\in\{0.16,0.32,0.64\}$~m and $T\in\{1,2,4\}$. One coordinate-wise refinement tests an adjacent factor-of-two value outside a grid boundary at the initial validation minimum. Both methods use this rule. Source discovery is repeated within each fold; source counts and residual weights are fitted for each candidate delay scale. The minimum pooled validation error selects one configuration per method for individual-anchor and joint localization. Table~\ref{tab:uwbselected} includes the final settings at 515 positions.
+
+For each reference $i$, the multi-anchor matching extension averages the original per-anchor distances, $d_i=\frac{1}{6}\sum_{a=1}^{6}d_i^{(a)}$, before applying inverse-distance interpolation. MPUrge-MAP uses the main-paper pattern cost and searches half-window sizes $p\in\{1,2,3\}$, pattern weights $\alpha\in\{0.3,0.5,0.7,0.9\}$ and neighbor counts $\{1,3,5,9\}$ on the same training holdouts. Individual-anchor validation selects $(p,\alpha,k)=(3,0.7,9)$; joint validation selects $(1,0.7,5)$. Both retain inverse-score power one. The Chamfer distance between sets $U$ and $V$ is
+\begin{equation}
+d_{\rm C}(U,V)=\frac12\left[\frac{1}{|U|}\sum_{u\in U}\min_{v\in V}|u-v|+\frac{1}{|V|}\sum_{v\in V}\min_{u\in U}|v-u|\right].
+\end{equation}
+Its neighbor count is selected from $\{1,3,5,9\}$ and inverse-distance power from $\{1,2\}$. Validation selects five neighbors for individual anchors and nine for joint decoding, with power two in both cases. All four methods use the same training holdouts and final survey positions. Table~\ref{tab:uwbanchors} separates the individual anchors.
+\input{generated/supp_uwb_anchors.tex}
+\begin{figure}[ht]
+\centering\includegraphics[width=\textwidth]{uwb_survey.pdf}
+\caption{Measured survey and test coverage, and individual-anchor accuracy using the shared 515-position survey.}
+\end{figure}
+\FloatBarrier
+
+\subsection{Survey density and anchor count}
+We form surveys of 128, 256 or 515 positions by taking the first positions in the farthest-point sampling order. Each larger survey contains all positions in the smaller surveys. Each uses the same 206 validation positions from the training data, with reserved representatives excluded from fitting in their fold. These experiments vary retained map size within a shared labeled training dataset. Candidate support and spatial bandwidth are computed from each fold's fitting coordinates, and source discovery is repeated for each retained map.
+
+The comparison evaluates all six individual anchors, all 15 pairs, all 20 triples and the six-anchor set. Within each anchor count, validation error is averaged equally over these subsets. The procedure in Sec.~S5.3 selects one configuration per method, retained map size and anchor count, then applies it to every corresponding subset. Final maps use all retained positions and localize all 3,382 test bursts. Table~\ref{tab:uwboperating} reports every condition; the 515-position six-anchor result is the main paper's measured comparison.
+
+\begin{figure}[ht]
+\centering\includegraphics[width=\textwidth]{uwb_operating.pdf}
+\caption{Measured SAPP and residual-map comparison across retained map sizes and anchor counts. Each point averages all anchor subsets of the indicated size on the same test bursts; positive differences favor SAPP. Bars give pointwise paired 95\% block-bootstrap intervals. Both methods use the training-selection procedure in Sec.~S5.3.}
+\label{fig:uwboperating}
+\end{figure}
+\input{generated/supp_uwb_operating.tex}
+\input{generated/supp_uwb_selected.tex}
+\FloatBarrier
+
+\subsection{Paired uncertainty and numerical evaluation}
+UWB intervals use 4,000 resamples of consecutive 100-burst blocks. For each survey size and anchor count, paired error differences are averaged over the anchor subsets within each burst before resampling. This gives a separate interval for each condition. Table~\ref{tab:uwbblocks} checks the paired intervals with 200-burst blocks. Every position estimate uses its query burst and the fitted survey map, with no trajectory smoothing.
+
+The implementation evaluates the UWB intensity using 0.0125~m delay tables and linear interpolation. The accompanying code supplies analytic-evaluation checks and retains the selected maps and predictions.
+\input{generated/supp_uwb_blocks.tex}
+\FloatBarrier
+
+\section{Accompanying files}
+The accompanying repository supplies code, processed observations, fitted maps and reference predictions. Its README gives verification, fitting and PDF build commands. The experiment design is in \path{data/nist/design.json}, and numerical settings are in \path{configs/receiver.json}. The \texttt{paper} directory contains the manuscript and supplement sources.
+\end{document}

@@ -1,0 +1,16 @@
+\begin{table}[ht]
+\centering\small
+\caption{Source fitting and independent residual tuning. Mean position errors and paired differences are in metres. The final column is the row's error minus SAPP's, with a 95\% crossed-bootstrap interval. All rows use geometric-median decoding.}
+\label{tab:optimized}
+\begin{tabular}{lrrrrl}
+\toprule
+Model & L & T & Oblique & Pooled & Difference from SAPP\\\midrule
+SAPP & 0.903 & 1.102 & 1.361 & 1.122 & Reference \\
+Matched residual & 1.268 & 1.208 & 1.418 & 1.298 & 0.176 [0.140, 0.212] \\
+Independently tuned residual & 1.205 & 1.186 & 1.367 & 1.253 & 0.131 [0.089, 0.172] \\
+Cluster-fitted sources & 0.927 & 1.108 & 1.314 & 1.116 & -0.006 [-0.039, 0.026] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Validation selects $h/(d_{\rm NN}/\sqrt2)=1$, $\sigma=0.32$~m and $T=0.5$ for the independently tuned residual map. The source-fitting comparison selects a 1~m neighborhood radius.

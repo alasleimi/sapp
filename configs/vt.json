@@ -1,0 +1,6 @@
+{
+  "cluster_gap": 0.6,
+  "group_threshold": 0.5,
+  "tolerance": 1.0,
+  "mean_error_m": 1.408842114989867
+}

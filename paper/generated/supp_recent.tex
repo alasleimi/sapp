@@ -1,0 +1,17 @@
+\begin{table}[ht]
+\centering\small
+\caption{Recent power-profile networks and paired reductions in mean error relative to SAPP. NIST uses one AP per fit; UWB combines six anchors. Positive differences favor SAPP. The final column gives the range of mean test errors across three independent fits. All values are in metres.}
+\label{tab:recentpaired}
+\begin{tabular}{llrrrr}
+\toprule
+Data & Comparator & Mean & Reduction & 95\% interval & Fit range\\
+\midrule
+NIST & P-NN & 1.674 & 0.552 & [0.483, 0.620] & 1.651--1.698\\
+NIST & L-SwiGLU & 1.596 & 0.474 & [0.410, 0.538] & 1.584--1.603\\
+NIST & PDP Transformer & 1.874 & 0.752 & [0.675, 0.830] & 1.855--1.891\\
+UWB & P-NN & 0.736 & 0.458 & [0.411, 0.505] & 0.725--0.755\\
+UWB & L-SwiGLU & 2.034 & 1.755 & [1.501, 2.048] & 1.924--2.093\\
+UWB & PDP Transformer & 2.375 & 2.096 & [1.913, 2.282] & 2.300--2.434\\
+\bottomrule
+\end{tabular}
+\end{table}

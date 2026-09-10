@@ -1,0 +1,27 @@
+\begin{table}[H]
+\centering\small
+\caption{Additional CNN training and query errors. AP, label and layout counts are per room; fingerprint and input counts pool all three rooms. Full surveys contain 164, 126 and 160 coordinates in L, T and oblique rooms. Both additional regimes use seven layouts. Bold epoch counts mark validation-selected durations. Errors are in metres and average three separately evaluated fits; the last column gives their pooled mean-error range.}
+\label{tab:cnnbudget}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrr}
+\toprule
+Training regime & APs & Labels & Layouts & Fingerprints & Inputs\\
+\midrule
+Common survey & 2 & All & 1 & 900 & 6,300\\
+Two APs, seven layouts & 2 & All & 7 & 6,300 & 6,300\\
+60 APs, seven layouts & 60 & 20 & 7 & 25,200 & 25,200\\
+\bottomrule
+\end{tabular}
+\par\medskip
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{lrrrrrrrr}
+\toprule
+Regime & Epochs & L mean & T mean & Oblique mean & Pooled mean & Median & P90 & Mean range\\
+\midrule
+Two APs & 100 & 1.725 & 1.428 & 1.615 & 1.589 & 1.404 & 2.900 & 1.565--1.621\\
+Two APs & \textbf{300} & 1.574 & 1.430 & 1.557 & 1.520 & 1.262 & 2.939 & 1.501--1.536\\
+60 APs & 100 & 1.840 & 1.645 & 2.004 & 1.830 & 1.685 & 3.228 & 1.726--1.885\\
+60 APs & \textbf{150} & 1.830 & 1.668 & 1.918 & 1.805 & 1.651 & 3.236 & 1.737--1.844\\
+\bottomrule
+\end{tabular}
+\end{table}

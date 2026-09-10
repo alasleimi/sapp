@@ -1,0 +1,41 @@
+{
+  "method": "sst",
+  "config": {
+    "id": "medium_aug0",
+    "size": "medium",
+    "lr": 0.002,
+    "augment": false
+  },
+  "seed": 9102,
+  "epochs": 40,
+  "stopped_epoch": 40,
+  "parameters": 432362,
+  "best_validation_m": null,
+  "training_count": 160,
+  "validation_count": 0,
+  "seconds": 6.6376733999932185,
+  "history": [
+    {
+      "epoch": 10,
+      "train_m": 1.5472054370436097,
+      "lr": 0.0003999754498638505
+    },
+    {
+      "epoch": 20,
+      "train_m": 0.9828501832793564,
+      "lr": 0.0007998036110255613
+    },
+    {
+      "epoch": 30,
+      "train_m": 0.6652949242709856,
+      "lr": 0.0011993372553522961
+    },
+    {
+      "epoch": 40,
+      "train_m": 0.4512322613492229,
+      "lr": 0.0015984292758289044
+    }
+  ],
+  "model_sha256": "320c785a66368c1a14ad03a4fa35a3ff421313398da96069c936f89b9aea40ef",
+  "test_mean_m": 1.7789218046654909
+}

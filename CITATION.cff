@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "Please cite the accompanying SAPP manuscript when using this implementation."
+title: "SAPP: Survey-inferred anchor point-process localization"
+type: software
+version: 0.1.0
+date-released: 2026-09-10
+authors:
+  - name: "Anonymous authors"

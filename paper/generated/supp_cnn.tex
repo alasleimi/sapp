@@ -1,0 +1,20 @@
+\begin{table}[H]
+\centering
+\caption{CNN query errors after full-survey training, in metres. Each entry averages the metrics of three independent models; the final column gives their mean-error range. The 250-epoch duration is selected from survey validation.}
+\label{tab:cnn}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrr}
+\toprule
+Room & Epochs & Mean & RMSE & Mean across initializations\\
+\midrule
+L & 100 & 1.741 & 2.058 & 1.639 to 1.816\\
+T & 100 & 1.474 & 1.741 & 1.441 to 1.503\\
+Oblique & 100 & 1.627 & 1.860 & 1.605 to 1.667\\
+Pooled & 100 & 1.614 & 1.892 & 1.603 to 1.634\\
+L & 250 & 1.652 & 1.997 & 1.546 to 1.757\\
+T & 250 & 1.442 & 1.746 & 1.415 to 1.467\\
+Oblique & 250 & 1.643 & 1.976 & 1.627 to 1.676\\
+Pooled & 250 & 1.579 & 1.911 & 1.555 to 1.600\\
+\bottomrule
+\end{tabular}
+\end{table}

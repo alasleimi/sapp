@@ -1,0 +1,40 @@
+{
+  "fit_seconds": 1.5279113999858964,
+  "sapp_milliseconds_per_query": 31.443894999392796,
+  "sapp_timing_runs": [
+    30.520784998952877,
+    32.06625000020722,
+    31.443894999392796
+  ],
+  "integrated_milliseconds_per_query": 42.89002500008792,
+  "integrated_timing_runs": [
+    44.012905001000036,
+    42.89002500008792,
+    42.72927999991225
+  ],
+  "median_milliseconds_per_query": 31.643209999310784,
+  "median_timing_runs": [
+    30.22114000050351,
+    31.643209999310784,
+    31.82959999976447
+  ],
+  "mpurge_milliseconds_per_query": 74.5783250007662,
+  "mpurge_timing_runs": [
+    72.52385500032688,
+    74.5783250007662,
+    76.30604000005405
+  ],
+  "cnn_milliseconds_per_query": 0.04912999866064638,
+  "cnn_timing_runs": [
+    0.04912999866064638,
+    0.06010999932186678,
+    0.04303500027162954
+  ],
+  "sources": 15,
+  "survey_count": 164,
+  "query_batch": 20,
+  "cpu": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+  "map_kib": 43.2255859375,
+  "python": "3.11.9",
+  "numpy": "2.2.6"
+}
