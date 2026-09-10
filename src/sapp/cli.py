@@ -32,7 +32,7 @@ def main():
         prog="sapp", description="SAPP localization and manuscript reproduction"
     )
     sub = parser.add_subparsers(dest="command", required=True)
-    sub.add_parser("demo", help="Fit a bundled real survey and localize eight queries")
+    sub.add_parser("demo", help="Fit a bundled survey and localize eight queries")
     for name, help_text in [
         ("reproduce", "Refit models, evaluate observations and generate the paper"),
         ("figures", "Regenerate all twelve vector figures"),

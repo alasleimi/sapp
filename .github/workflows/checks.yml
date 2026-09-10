@@ -14,5 +14,5 @@ jobs:
       - run: uv run --locked ruff check src tests
       - run: uv run --locked ruff format --check src tests
       - run: uv run --locked --extra paper sapp verify --data-only
-      - run: uv run --locked --extra paper pytest
+      - run: uv run --locked --extra paper python -m pytest
       - run: uv build --wheel

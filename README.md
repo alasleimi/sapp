@@ -50,7 +50,7 @@ uv run --locked --extra paper sapp paper --output runs/reference
 
 The final PDF command requires TeX Live with `pdflatex` and `bibtex`. Figures are generated as vector PDFs and PNG previews. The manuscript and supplement appear in `runs/reference/paper/` or `runs/reproduction/paper/`.
 
-See [the reproduction guide](docs/reproduction.md) for stage dependencies, result checks, and data provenance.
+See [the reproduction guide](docs/reproduction.md) for stage dependencies, result checks, and data provenance, and [the release verification](docs/verification.md) for measured reproduction results.
 
 ## Use SAPP in Python
 
@@ -90,7 +90,7 @@ runs/                   Generated outputs, excluded from Git
 
 ```sh
 uv sync --locked --extra paper --group dev
-uv run --locked --extra paper pytest
+uv run --locked --extra paper python -m pytest
 uv run --locked ruff check src tests
 uv run --locked ruff format --check src tests
 ```

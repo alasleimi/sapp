@@ -64,7 +64,7 @@ The `paper` directory holds the v27 text. Generated result tables can be overlai
 ```sh
 uv run --locked --extra paper sapp verify --data-only
 uv run --locked --extra paper sapp verify --profile primary
-uv run --locked --extra paper pytest
+uv run --locked --extra paper python -m pytest
 ```
 
 Input integrity is checked against `data/manifest.json`. Numerical verification writes `verification.json`, reports missing results, and compares individual errors and error-distribution summaries with the released predictions. The accelerated analytical scorer is checked against the double-precision score during evaluation. Near-tied mode candidates are rescored in double precision.

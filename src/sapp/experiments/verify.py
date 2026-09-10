@@ -36,6 +36,11 @@ def verify(ctx, data_only=False, profile="paper"):
         if a.shape != b.shape:
             report["comparisons"][name] = dict(status="FAIL", shapes=[a.shape, b.shape])
             return
+        if not (np.isfinite(a).all() and np.isfinite(b).all()):
+            report["comparisons"][name] = dict(
+                status="FAIL", reason="Nonfinite localization errors"
+            )
+            return
         current, original = (metrics(a), metrics(b))
         delta = float(np.max(np.abs(a - b)))
         status = "PASS" if delta < 5e-05 else "RETRAINED" if neural else "FAIL"

@@ -75,3 +75,23 @@ def test_cnn_resume_restores_optimizer_and_shuffle(tmp_path, monkeypatch):
     assert len(history) == 30
     for key, value in expected.state_dict().items():
         torch.testing.assert_close(actual.state_dict()[key], value, rtol=0, atol=0)
+
+
+def test_verification_rejects_nonfinite_predictions(root, tmp_path):
+    import shutil
+    import pytest
+    from sapp.experiments.verify import verify
+
+    folder = tmp_path / "nist/predictions"
+    shutil.copytree(root / "reference/nist/predictions", folder)
+    path = folder / "L_LA.npz"
+    with np.load(path) as data:
+        values = {key: data[key] for key in data.files}
+    values["sapp"][0] = np.nan
+    np.savez_compressed(path, **values)
+    with pytest.raises(RuntimeError):
+        verify(Context(root, tmp_path), profile="primary")
+    report = read_json(tmp_path / "verification.json")
+    assert report["status"] == "FAIL"
+    assert report["comparisons"]["nist/sapp"]["status"] == "FAIL"
+    assert report["comparisons"]["nist/mode"]["status"] == "PASS"
