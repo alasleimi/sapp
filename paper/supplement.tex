@@ -133,7 +133,7 @@ For duration selection, a random 20\% of survey coordinates is held out in each 
 \input{generated/supp_cnn_budget_prose.tex}
 \input{generated/supp_cnn_budget.tex}
 
-\subsection{VT interpolation}
+\subsection{VT interpolation (Zayets and Steinbach, 2018)}
 The VT reconstruction uses the published 1~m neighborhood radius and weight $\alpha=0.5$. We evaluate both the published interpolation settings and a development-calibrated variant. Cluster pairs are processed in increasing matching cost, allowing at most one cluster per reference in a group. Smaller clusters receive distinct minimum-cost slots in the mean full-sized cluster. Coplanar nonlinear trilateration fits two horizontal source coordinates and a nonnegative vertical offset. Tracks with fewer than three noncollinear references use their mean range. Measured fingerprints precede synthesized fingerprints in MCA tie breaking.
 
 The receiver's peak detector and bounded refinement imply a minimum separation of $c/B=0.15$~m, so the published 0.10~m clustering gap produces singleton clusters. Calibration considers gaps $\{0.10,0.20,0.30,0.45,0.60,0.90,1.20\}$~m, grouping thresholds $\{0.25,0.50,1.00\}$, and MCA tolerances $\{0.25,0.50,1.00\}$~m. Mean localization error over 1,200 development cases selects one shared combination. These cases use both rectangular rooms, two APs per room, all 100 query coordinates, and one layout from each of the one-, three-, and five-object strata. The receiver and nine-peak cap match the primary evaluation. Table~\ref{tab:vtselection} summarizes sensitivity to the clustering gap.

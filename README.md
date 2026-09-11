@@ -11,7 +11,7 @@ The experiment configuration corresponds to manuscript **v27**. The implementati
 | Method | Input | L mean | T mean | Oblique mean | Overall mean | Median | P90 | >2 m (%) |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
 | MCA | Delays | 1.528 | 1.498 | 1.845 | 1.624 | 1.044 | 4.145 | 31.7 |
-| VT interpolation | Delays | 1.720 | 1.588 | 1.926 | 1.745 | 1.278 | 3.939 | 34.9 |
+| [VT interpolation (Zayets & Steinbach, 2018)](https://doi.org/10.1109/ICC.2018.8422206) | Delays | 1.720 | 1.588 | 1.926 | 1.745 | 1.278 | 3.939 | 34.9 |
 | Chamfer weighted kNN | Delays | 1.372 | 1.297 | 1.499 | 1.389 | 1.023 | 3.143 | 23.6 |
 | MPUrge-MAP | Delays | 1.338 | 1.278 | 1.585 | 1.400 | 1.067 | 3.127 | 24.4 |
 | CNN regressor | Delays | 1.652 | 1.442 | 1.643 | 1.579 | 1.339 | 3.012 | 28.5 |

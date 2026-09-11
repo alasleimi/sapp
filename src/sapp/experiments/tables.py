@@ -47,7 +47,10 @@ def interval(value):
 def main_tables(results, output):
     keys = [
         ("mca", "MCA"),
-        ("vt_calibrated", "VT interpolation"),
+        (
+            "vt_calibrated",
+            r"\shortstack[l]{VT interpolation\\(Zayets \& Steinbach, 2018)}",
+        ),
         ("chamfer", "Chamfer weighted kNN"),
         ("mpurge", "MPUrge-MAP"),
         ("cnn", "CNN regressor"),

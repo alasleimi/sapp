@@ -8,7 +8,7 @@ Import the method by name: `from sapp.baselines import mpurge_map, mca`. Use `mp
 |---|---|---|
 | MCA | `mca.py` | [Multipath component analysis, 2017](https://doi.org/10.1109/IPIN.2017.8115943); direct delay-set matching |
 | MPUrge-MAP | `mpurge_map.py`, `_mpurge_map_numba.py` | [MPUrge-MAP, 2026](https://doi.org/10.1109/IWCMC69287.2026.11580087); coverage-penalized matching and coordinate estimation |
-| VT interpolation | `virtual_transmitters.py` | [Zayets and Steinbach, 2018](https://doi.org/10.1109/ICC.2018.8422206); match clusters, fit virtual transmitters, synthesize fingerprints |
+| VT interpolation (Zayets & Steinbach, 2018) | `virtual_transmitters.py` | [Zayets and Steinbach, 2018](https://doi.org/10.1109/ICC.2018.8422206); match clusters, fit virtual transmitters, synthesize fingerprints |
 | Chamfer weighted kNN | `chamfer.py` | Symmetric nearest-peak distance and inverse-distance coordinate weighting; spatial validation selects neighbors and weight exponent |
 | CNN regressor | `cnn.py`, `_cnn_cuda.py` | [CNN multipath positioning, 2026](https://doi.org/10.1109/IWCMC69287.2026.11580049); the paper's encoded delay and coordinate input, with three independent fits |
 | P-NN | `networks.py` | [Oh et al., 2024](https://doi.org/10.1109/JSAC.2024.3413977); power-profile network |

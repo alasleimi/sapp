@@ -20,7 +20,7 @@ uv run --locked --extra paper sapp reproduce --stages primary native
 | `native` | Refit and evaluate the exact-delay experiment | Native delay observations |
 | `surfaces` | Refit maps with contiguous survey strips withheld | Receiver survey |
 | `optimized` | Independently tuned residual and alternative source estimator | Receiver survey and selected settings |
-| `vt` | Published, calibrated, and tolerance-controlled VT interpolation | Receiver observations |
+| `vt` | Published, calibrated, and tolerance-controlled VT interpolation (Zayets & Steinbach, 2018) | Receiver observations |
 | `vt_diagnostics` | Held-out VT delay predictions and smooth-source positive control | Receiver survey |
 | `components` | Matched SAPP component and decoder controls | Primary maps, fitted if absent |
 | `sensitivity` | Survey density, bandwidth, SNR, and clock-offset experiments | Receiver conditions |
