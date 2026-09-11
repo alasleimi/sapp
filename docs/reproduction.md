@@ -57,7 +57,7 @@ The default `paper` profile runs all stages except `prepare`. The `primary`, `na
 
 `sapp figures --only failure_diagnostic` redraws a selected figure. `--from reference` reads the archived predictions and maps; `--from run` reads the chosen output directory. Plotting contains no training and does not substitute archived predictions into fresh experiment outputs.
 
-The `paper` directory holds the v27 text. Generated result tables can be overlaid when compiling it. Numerical prose and the original runtime measurements remain the manuscript text. A materially different experiment configuration therefore requires editorial review of that text before using the resulting PDF as a new paper version.
+The `paper` directory contains the manuscript and supplement sources. The PDF build uses the figures and tables generated in the selected output directory. Numerical values written in prose are maintained in the manuscript source; update them when changing the experiment configuration.
 
 ## Checks
 

@@ -41,6 +41,6 @@ The NIST quasi-deterministic simulations use generator revision `1ccf0cb61c1741c
 
 The measured inputs derive from the [Fraunhofer IIS fingerprinting dataset for positioning](https://www.iis.fraunhofer.de/en/ff/lv/dataanalytics/pos/fingerprinting-dataset-for-positioning.html). The repository includes the processed arrays used in this manuscript's UWB evaluation. They were prepared from the project's existing local download.
 
-The starting manuscript archive was `SAPP_anonymous_v26_source_and_results.zip`, SHA-256 `77f7f48583d80d41ed1b3004fb07503f86fed47efed68e82b57f6bcaf47d80fa`. Manuscript v27 retained those numerical experiments. `data/manifest.json` records the hashes of the actual inputs distributed here.
+`data/manifest.json` records the SHA-256 hashes of the distributed inputs. Run `sapp verify --data-only` to check the local files against this manifest.
 
 Dataset and upstream software rights remain with their respective providers. See `THIRD_PARTY.md` for attribution and the separation between repository code and data.

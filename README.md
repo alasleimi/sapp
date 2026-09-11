@@ -1,8 +1,10 @@
 # SAPP
 
-SAPP learns a map from surveyed positions and unordered multipath delays, then estimates a position from a new delay set. This repository contains the method, the paper's comparators, local experiment inputs, and commands to refit the models and regenerate the manuscript figures.
+**SAPP locates a device indoors using radio echoes from a single access point.** Signals reflect off walls and objects, so a receiver detects several copies of the same transmission arriving at different times. Those delays change as the receiver moves.
 
-The experiment configuration corresponds to manuscript **v27**. The implementation preserves its fitting procedure, geometric-median decoder, and posterior-mode failure example.
+From delays recorded at known positions, SAPP fits **virtual transmitters**: points whose distances to the receiver predict how individual path delays change with position. It learns where each path is detected and models additional delay patterns using nearby survey measurements. For a new observation, SAPP scores candidate positions by how well their predicted delays match the measurement, then uses those scores to estimate the device's coordinates.
+
+This repository includes SAPP, comparison methods, benchmark data, and commands to reproduce the paper's figures and tables.
 
 ## Main results
 
