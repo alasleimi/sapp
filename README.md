@@ -1,8 +1,10 @@
 # SAPP
 
-**SAPP locates a device indoors using radio echoes from a single access point.** Signals reflect off walls and objects, so a receiver detects several copies of the same transmission arriving at different times. Those delays change as the receiver moves.
+**SAPP locates an indoor receiver using signal travel times from a single access point.** A reflection off a flat wall travels the same distance as a straight signal from a mirror image of the access point behind that wall. This imaginary point is a *virtual transmitter*.
 
-From delays recorded at known positions, SAPP fits **virtual transmitters**: points whose distances to the receiver predict how individual path delays change with position. It learns where each path is detected and models additional delay patterns using nearby survey measurements. For a new observation, SAPP scores candidate positions by how well their predicted delays match the measurement, then uses those scores to estimate the device's coordinates.
+To set up SAPP, record signal travel times at known receiver positions. SAPP estimates virtual transmitter locations whose distances to those positions match the measured path lengths. Later, an echo with a travel time of **30 ns corresponds to about 9 m of travel**: it supports receiver positions about 9 m from one of the learned transmitters. Other echoes supply further distance measurements and narrow down the possible locations.
+
+Echoes can appear or disappear as the receiver moves, so SAPP learns where each reflection is usually detected. It also uses nearby survey measurements to predict additional arrival times. At each candidate position, the model evaluates how likely the observed combination of arrival times is and uses these probabilities to estimate the receiver's coordinates.
 
 This repository includes SAPP, comparison methods, benchmark data, and commands to reproduce the paper's figures and tables.
 
