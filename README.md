@@ -1,10 +1,12 @@
 # SAPP
 
-**SAPP locates an indoor receiver using signal travel times from a single access point.** A reflection off a flat wall travels the same distance as a straight signal from a mirror image of the access point behind that wall. This imaginary point is a *virtual transmitter*.
+**SAPP estimates an indoor receiver's position from multipath arrival times measured from an access point.** Training uses sets of arrival times recorded at known receiver coordinates. The paths are unlabeled: the survey does not identify which reflection produced each measurement. SAPP fits three components:
 
-To set up SAPP, record signal travel times at known receiver positions. SAPP estimates virtual transmitter locations whose distances to those positions match the measured path lengths. Later, an echo with a travel time of **30 ns corresponds to about 9 m of travel**: it supports receiver positions about 9 m from one of the learned transmitters. Other echoes supply further distance measurements and narrow down the possible locations.
+1. **Virtual-source geometry.** RANSAC proposes source locations using measurements from three survey positions, retains sources whose predicted delays agree with observations across the survey, and refines their locations by robust least squares. Each source predicts a path delay from its distance to a candidate receiver position.
+2. **Spatial visibility.** SAPP assigns each survey peak a probability of belonging to each fitted source. Spatial kernel smoothing of these assignments estimates how many peaks each source is expected to produce at a given position, accounting for paths that appear and disappear across the room.
+3. **Residual delay density.** Survey peaks that the fitted sources explain poorly contribute to a kernel density estimate over delay. Weighting these measurements by their proximity to a candidate position captures local delay patterns left unexplained by the source geometry.
 
-Echoes can appear or disappear as the receiver moves, so SAPP learns where each reflection is usually detected. It also uses nearby survey measurements to predict additional arrival times. At each candidate position, the model evaluates how likely the observed combination of arrival times is and uses these probabilities to estimate the receiver's coordinates.
+To localize a new observation, SAPP combines the visibility-weighted source predictions and the residual density into a single delay intensity at each candidate position. A Poisson point-process likelihood scores the measured arrival times and their count. These scores give a probability distribution over receiver positions; SAPP returns its geometric median, the position that minimizes expected Euclidean error.
 
 This repository includes SAPP, comparison methods, benchmark data, and commands to reproduce the paper's figures and tables.
 
