@@ -122,5 +122,3 @@ uv run --locked --extra paper python -m pytest
 uv run --locked ruff check src tests
 uv run --locked ruff format --check src tests
 ```
-
-The regression tests cover fitted maps, the multimodal failure example, a previously sensitive mode estimate, receiver peak extraction, the CNN input encodings, and baseline mathematics. Experiment verification additionally compares mean, median, P90, P95, RMSE, maximum error, and the fraction above two metres.
