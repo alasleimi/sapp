@@ -3,8 +3,8 @@
 from itertools import product
 import numpy as np
 
-from sapp.baselines import matching, virtual_transmitters as vt, chamfer
-from sapp.baselines._matching_numba import predict as mpurge_predict
+from sapp.baselines import mca, virtual_transmitters as vt, chamfer
+from sapp.baselines._mpurge_map_numba import predict as mpurge_predict
 from .common import unpack, read_json, save_npz, write_json, residual_model
 from .predict import predict
 
@@ -14,12 +14,7 @@ def matching_predictions(query, survey, xy):
         mpurge=mpurge_predict(
             query, np.isfinite(query).sum(1), survey, np.isfinite(survey).sum(1), xy
         ),
-        mca=np.asarray(
-            [
-                matching.published_mca_localize(q, unpack(survey), xy, epsilon_m=0.5)
-                for q in unpack(query)
-            ]
-        ),
+        mca=np.asarray([mca.localize(q, unpack(survey), xy, epsilon_m=0.5) for q in unpack(query)]),
     )
 
 

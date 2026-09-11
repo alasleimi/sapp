@@ -1,4 +1,4 @@
-"""Compiled evaluation of the accompanying MPUrge-MAP implementation."""
+"""Numba acceleration for MPUrge-MAP scoring and localization."""
 
 from __future__ import annotations
 

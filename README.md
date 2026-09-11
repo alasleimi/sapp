@@ -86,6 +86,17 @@ runs/                   Generated outputs, excluded from Git
 
 [Baselines](docs/baselines.md) lists the implementations and their papers. [Data provenance](docs/data-and-api.md#data-provenance) describes the bundled NIST and Fraunhofer inputs.
 
+The baseline modules are named after their methods:
+
+```python
+from sapp.baselines import mpurge_map, mca
+
+mpurge_positions = mpurge_map.localize(query_sets, survey_sets, survey_xy)
+mca_position = mca.localize(query_sets[0], survey_sets, survey_xy, epsilon_m=0.5)
+```
+
+Both use range sets and survey coordinates in metres. MPUrge-MAP accepts a batch of queries; MCA accepts one query.
+
 ## Development
 
 ```sh

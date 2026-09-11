@@ -7,7 +7,7 @@ from numba import njit, prange
 from sapp import AnchorParameters
 from sapp.acceleration import score_model, direct_scores, decode
 from sapp.baselines import chamfer
-from sapp.baselines._matching_numba import pair_score
+from sapp.baselines._mpurge_map_numba import pair_score
 from sapp.localization import candidate_grid
 from .common import read_json, write_json, save_npz, model_at
 

@@ -1,6 +1,6 @@
 from itertools import combinations
 import numpy as np
-from sapp.baselines.matching import size_unify, mpurge_scores
+from sapp.baselines.mpurge_map import size_unify, mpurge_scores
 from sapp.baselines.chamfer import distance, predict
 from sapp.baselines.virtual_transmitters import source_fit
 from sapp.kernels import range_surfaces
@@ -17,7 +17,7 @@ def test_size_unification_matches_exhaustive_subsets():
 
 
 def test_compiled_mpurge_agrees_with_equations():
-    from sapp.baselines._matching_numba import pair_score
+    from sapp.baselines._mpurge_map_numba import pair_score
 
     rng = np.random.default_rng(37)
     for p in (1, 2, 3):

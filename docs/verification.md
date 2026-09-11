@@ -1,6 +1,6 @@
 # Release verification
 
-The release was checked on Windows with Python 3.11.9, the locked numerical dependencies, and an NVIDIA RTX 4050 for neural training. The installed wheel was also tested against an extracted copy of the source ZIP in an isolated environment.
+The v0.1.0 experiment release was checked on Windows with Python 3.11.9, the locked numerical dependencies, and an NVIDIA RTX 4050 for neural training. The installed wheel was also tested against an extracted copy of the source ZIP in an isolated environment. Version 0.1.1 names the baseline modules `mpurge_map` and `mca`; the numerical implementations are unchanged.
 
 ## SAPP results
 
